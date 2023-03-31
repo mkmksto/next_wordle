@@ -19,4 +19,12 @@
         writing-mode: vertical-rl;
         font-size: 2.5rem;
     }
+
+    .wordle-letter {
+        @apply flex items-center justify-center w-16 h-16 rounded-xl text-inherit border-[3px] border-white text-white;
+    }
+
+    .wordle-word {
+        @apply w-fit flex justify-between gap-3 rounded-xl px-60;
+    }
 }

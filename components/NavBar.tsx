@@ -5,13 +5,12 @@ import { Space_Grotesk } from 'next/font/google'
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
-    variable: '--font-grotesk',
     weight: ['400', '700'],
 })
 
 export default function NavBar() {
     return (
-        <nav className="fixed h-screen z-50 w-20 flex flex-col items-center bg-pink-300 justify-around">
+        <nav className="h-screen z-50 flex flex-col items-center justify-around">
             <ul>
                 <li className="nav-list">
                     <AiOutlineInfoCircle />
@@ -20,7 +19,7 @@ export default function NavBar() {
                     <BsGear />
                 </li>
             </ul>
-            <div className={` font-bold select-none ${spaceGrotesk.variable} font-sans vert-text`}>
+            <div className={`select-none ${spaceGrotesk.className} font-sans vert-text`}>
                 WORDLE
             </div>
 

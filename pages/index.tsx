@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import NavBar from '@/components/NavBar'
+import MainScreen from '@/components/MainScreen'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', weight: ['400', '700'] })
+const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] })
 
 export default function Home() {
     return (
@@ -16,8 +17,11 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className={`${inter.variable} font-sans`}>
+            <main
+                className={`${inter.className} grid grid-cols-[6rem_1fr] overflow-hidden h-screen w-screen"`}
+            >
                 <NavBar />
+                <MainScreen />
             </main>
         </>
     )

@@ -8,3 +8,15 @@
     margin: 0;
     padding: 0;
 }
+
+@layer components {
+    .nav-list {
+        @apply text-3xl cursor-pointer;
+    }
+
+    .vert-text {
+        text-orientation: upright;
+        writing-mode: vertical-rl;
+        font-size: 2.5rem;
+    }
+}

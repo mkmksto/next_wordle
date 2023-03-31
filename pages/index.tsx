@@ -1,7 +1,8 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
+import { Inter, Space_Grotesk } from 'next/font/google'
+import NavBar from '@/components/NavBar'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', weight: ['400', '700'] })
 
 export default function Home() {
     return (
@@ -16,7 +17,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={`${inter.variable} font-sans`}>
-                <div>Hello World</div>
+                <NavBar />
             </main>
         </>
     )

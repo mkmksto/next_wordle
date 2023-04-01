@@ -1,11 +1,15 @@
-import Head from 'next/head'
-import { Inter, Space_Grotesk } from 'next/font/google'
-import NavBar from '@/components/NavBar'
 import MainScreen from '@/components/MainScreen'
+import NavBar from '@/components/NavBar'
+import SettingsModal from '@/components/modals/SettingsModal'
+import { Inter } from 'next/font/google'
+import Head from 'next/head'
+import { useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] })
 
 export default function Home() {
+    const [showModal, setShowModal] = useState(false)
+
     return (
         <>
             <Head>
@@ -17,10 +21,13 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
+            <SettingsModal showModal={showModal} onModalBgClicked={() => setShowModal(false)} />
+
             <main
                 className={`${inter.className} grid grid-cols-[6rem_1fr] overflow-hidden h-screen w-screen"`}
             >
-                <NavBar />
+                <NavBar onSettingsClicked={() => setShowModal(true)} />
                 <MainScreen />
             </main>
         </>

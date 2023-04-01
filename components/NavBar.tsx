@@ -8,14 +8,18 @@ const spaceGrotesk = Space_Grotesk({
     weight: ['400', '700'],
 })
 
-export default function NavBar() {
+interface Props {
+    onSettingsClicked: () => void
+}
+
+export default function NavBar({ onSettingsClicked }: Props) {
     return (
         <nav className="h-screen z-50 flex flex-col items-center justify-around">
             <ul>
                 <li className="nav-list">
                     <AiOutlineInfoCircle />
                 </li>
-                <li className="nav-list mt-4">
+                <li onClick={() => onSettingsClicked()} className="nav-list mt-4">
                     <BsGear />
                 </li>
             </ul>

@@ -9,7 +9,7 @@ export default function WordleGrid() {
     return (
         // words container
         <div
-            className={`flex flex-col justify-between items-center bg-orange-600 h-[58%] w-[60%] py-12 rounded-3xl text-2xl font-bold ${spaceGrotesk.className}`}
+            className={`flex flex-col justify-between items-center bg-custom-red h-[58%] w-[60%] py-12 rounded-3xl text-[1.3rem] ${spaceGrotesk.className}`}
         >
             {/* word */}
             {new Array(6).fill(0).map((_, idx) => (

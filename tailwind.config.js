@@ -12,9 +12,12 @@ module.exports = {
     ],
     theme: {
         extend: {
-            fontFamily: {
-                // sans: ['var(--font-inter)'],
-                // sans: ['var(--font-grotesk)'],
+            // fontFamily: {
+            //     // sans: ['var(--font-inter)'],
+            //     // sans: ['var(--font-grotesk)'],
+            // },
+            colors: {
+                'custom-red': '#c64629',
             },
         },
     },

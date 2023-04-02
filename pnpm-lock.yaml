@@ -19,6 +19,9 @@ dependencies:
   eslint-config-next:
     specifier: 13.2.4
     version: 13.2.4(eslint@8.37.0)(typescript@5.0.3)
+  immer:
+    specifier: ^9.0.21
+    version: 9.0.21
   next:
     specifier: 13.2.4
     version: 13.2.4(react-dom@18.2.0)(react@18.2.0)
@@ -45,7 +48,7 @@ dependencies:
     version: 3.21.4
   zustand:
     specifier: ^4.3.6
-    version: 4.3.6(react@18.2.0)
+    version: 4.3.6(immer@9.0.21)(react@18.2.0)
 
 devDependencies:
   '@types/uuid':
@@ -1398,6 +1401,10 @@ packages:
     engines: {node: '>= 4'}
     dev: false
 
+  /immer@9.0.21:
+    resolution: {integrity: sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -2570,7 +2577,7 @@ packages:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false
 
-  /zustand@4.3.6(react@18.2.0):
+  /zustand@4.3.6(immer@9.0.21)(react@18.2.0):
     resolution: {integrity: sha512-6J5zDxjxLE+yukC2XZWf/IyWVKnXT9b9HUv09VJ/bwGCpKNcaTqp7Ws28Xr8jnbvnZcdRaidztAPsXFBIqufiw==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -2582,6 +2589,7 @@ packages:
       react:
         optional: true
     dependencies:
+      immer: 9.0.21
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false

@@ -1,4 +1,8 @@
 import { useRef } from 'react'
+import SettingsModalCard from './SettingsModalCard'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] })
 
 interface Props {
     showModal: boolean
@@ -17,11 +21,9 @@ export default function SettingsModal({ showModal, onModalBgClicked }: Props) {
                 const target = e.target as HTMLDivElement
                 if (target.classList.contains('fixed')) onModalBgClicked()
             }}
-            className="fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center bg-black/50 "
+            className={`fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center bg-black/50 ${inter.className}`}
         >
-            <div className="flex flex-col items-center justify-center h-80 w-[40rem] bg-white rounded-3xl">
-                Hello
-            </div>
+            <SettingsModalCard />
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import MainScreen from '@/components/MainScreen'
 import NavBar from '@/components/NavBar'
-import SettingsModal from '@/components/modals/SettingsModal'
+import SettingsModalContainer from '@/components/modals/SettingsModalContainer'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import { useState } from 'react'
@@ -22,7 +22,10 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <SettingsModal showModal={showModal} onModalBgClicked={() => setShowModal(false)} />
+            <SettingsModalContainer
+                showModal={showModal}
+                onModalBgClicked={() => setShowModal(false)}
+            />
 
             <main
                 className={`${inter.className} grid grid-cols-[6rem_1fr] overflow-hidden h-screen w-screen"`}

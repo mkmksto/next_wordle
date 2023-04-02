@@ -1,9 +1,9 @@
-import { AiFillSignal } from 'react-icons/ai'
-import { SiLetterboxd } from 'react-icons/si'
+import useGameSettings$ from '@/store/game_settings'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FieldValues, useForm } from 'react-hook-form'
+import { AiFillSignal } from 'react-icons/ai'
+import { SiLetterboxd } from 'react-icons/si'
 import { z } from 'zod'
-import { useState } from 'react'
 
 const schema = z.object({
     min_chars: z.number().min(5).max(8),
@@ -12,13 +12,24 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-export default function SettingsModalContainer() {
-    const [minChars, setMinChars] = useState(5)
+interface Props {
+    onCloseSettingsModal: () => void
+}
+
+export default function SettingsModalContainer({ onCloseSettingsModal }: Props) {
+    // NOTE: minChars is only used for display, the actual min chars to transfer to the store
+    // is inside onFormSubmitted's data
+    // const [minChars, setMinChars] = useState(5)
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<FormData>({ resolver: zodResolver(schema) })
+
+    const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
+    const changeNumChars$ = useGameSettings$((state) => state.changeNumChars$)
+    const changeDifficulty$ = useGameSettings$((state) => state.changeDifficulty$)
+    const resetGameSettings$ = useGameSettings$((state) => state.resetGameSettings$)
 
     function onFormSubmitted(data: FieldValues) {
         console.log(data)
@@ -38,15 +49,17 @@ export default function SettingsModalContainer() {
                 </label>
                 <input
                     {...register('min_chars', { valueAsNumber: true })}
-                    value={minChars}
-                    onChange={(e) => setMinChars(parseInt(e.target.value))}
+                    value={gameSettings$.num_chars}
+                    // value={minChars}
+                    onChange={(e) => changeNumChars$(parseInt(e.target.value))}
+                    // onChange={(e) => setMinChars(parseInt(e.target.value))}
                     id="min_chars"
                     type="range"
                     min={5}
                     max={8}
                     className="ml-auto outline-none"
                 />
-                <span className="ml-2">{minChars}</span>
+                <span className="ml-2">{gameSettings$.num_chars}</span>
             </div>
 
             <div className="mb-3 flex items-center w-full pb-2 border-b">
@@ -63,6 +76,8 @@ export default function SettingsModalContainer() {
                     {...register('difficulty')}
                     id="difficulty"
                     className="ml-auto p-2 border-none rounded-md outline-none"
+                    value={gameSettings$.difficulty}
+                    onChange={(e) => changeDifficulty$(e.target.value)}
                 >
                     <option selected>Medium</option>
                     <option value="easy">Easy</option>
@@ -73,12 +88,22 @@ export default function SettingsModalContainer() {
             </div>
 
             <div className="mt-auto w-full flex justify-between">
-                <button type="submit" className="settings-buttons">
-                    Save
+                <button
+                    onClick={() => onCloseSettingsModal()}
+                    type="submit"
+                    className="settings-buttons border-red-400"
+                >
+                    Close
                 </button>
-                <button type="reset" className="settings-buttons">
+                <button
+                    onClick={() => resetGameSettings$()}
+                    type="reset"
+                    className="settings-buttons"
+                >
                     Reset
                 </button>
+
+                {/* Todo: Implement */}
                 <button
                     onClick={() => console.log('save and restart')}
                     type="button"

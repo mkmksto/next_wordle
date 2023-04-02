@@ -30,6 +30,6 @@
     }
 
     .settings-buttons {
-        @apply py-2 px-4 rounded-full font-bold text-neutral-500 border border-neutral-200 transition ease-in duration-100 hover:text-white hover:bg-neutral-500;
+        @apply py-2 px-4 rounded-full font-bold text-neutral-500 border border-neutral-200 transition ease-in duration-100 hover:text-white hover:bg-neutral-500 outline-none;
     }
 }

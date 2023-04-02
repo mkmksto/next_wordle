@@ -25,6 +25,7 @@ export default function Home() {
             <SettingsModalContainer
                 showModal={showModal}
                 onModalBgClicked={() => setShowModal(false)}
+                onCloseSettingsModal={() => setShowModal(false)}
             />
 
             <main

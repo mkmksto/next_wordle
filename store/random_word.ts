@@ -2,6 +2,7 @@ import my_fetch from '@/services/my_fetch'
 import type { IGameSettings } from '@/store/game_settings'
 import { create } from 'zustand'
 import middleware from './zustand_middleware'
+import { immer } from 'zustand/middleware/immer'
 
 interface IRandomWordState {
     currentRandomWord$: string
@@ -40,6 +41,6 @@ const wordStore = (set: any) => ({
     clearCurrentWord$: () => set((state: IRandomWordState) => (state.currentRandomWord$ = '')),
 })
 
-const useRandomWordStore$ = create<IRandomWordState>()(middleware(wordStore))
+const useRandomWordStore$ = create<IRandomWordState>()(immer(wordStore))
 
 export default useRandomWordStore$

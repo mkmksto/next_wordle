@@ -87,14 +87,13 @@ const guessStore = (set: any, get: any) => ({
     },
 
     isGuessCorrect$() {
-        const currentGuess = get().currentGuess$()
-        if (get().currentRandomWord$ === currentGuess) return true
+        if (get().currentRandomWord$ === get().currentGuess$()) return true
         return false
     },
 })
 
-const useGuessStore = create<IGuessStore>()(middleware(guessStore))
-export default useGuessStore
+const useGuessTracker$ = create<IGuessStore>()(middleware(guessStore))
+export default useGuessTracker$
 
 function generateEmptyGuessArray(wordSize: number): LetterGuess[][] {
     const finalArr: LetterGuess[][] = []

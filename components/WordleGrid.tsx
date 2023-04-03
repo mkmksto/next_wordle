@@ -4,6 +4,8 @@ import useRandomWordStore$ from '@/store/random_word'
 import useGameSettings$ from '@/store/game_settings'
 import useGuessTracker$ from '@/store/wordle_guess'
 import WordleRow from './WordleRow'
+import useGameState$ from '@/store/game_state'
+import { sleep } from '@/services/misc_utils'
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -11,10 +13,11 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export default function WordleGrid() {
+    const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
+
     const currentRandomWord$ = useRandomWordStore$((state) => state.currentRandomWord$)
     const clearCurrentWord$ = useRandomWordStore$((state) => state.clearCurrentWord$)
     const renewCurrentWord$ = useRandomWordStore$((state) => state.renewCurrentWord$)
-    const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
 
     const setCurrentRandomWord$ = useGuessTracker$((state) => state.setCurrentRandomWord$)
     const allGuesses$ = useGuessTracker$((state) => state.allGuesses$)
@@ -23,19 +26,44 @@ export default function WordleGrid() {
         (state) => state.removeLastLetterFromGuess$,
     )
     const incrementRow$ = useGuessTracker$((state) => state.incrementRow$)
+    const isGuessCorrect$ = useGuessTracker$((state) => state.isGuessCorrect$)
+
+    const allowInput$ = useGameState$((state) => state.allowInput$)
+    const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
+
+    function handleInput(key: string) {
+        if (!allowInput$) return
+        if (/^[a-zA-Z]$/.test(key)) {
+            addLetterToGuess$(key)
+        } else if (key === 'Backspace' || key === '{bksp}') {
+            removeLastLetterFromGuess$()
+        } else if (key === 'Enter' || key === '{enter}') {
+            onEnter()
+        }
+    }
+
+    async function onEnter() {
+        setAllowInput$(false)
+        try {
+            if (hasUserWon()) {
+                console.log('user has won!')
+                setAllowInput$(false)
+                await sleep(1000)
+                return
+            }
+
+            incrementRow$()
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setAllowInput$(true)
+        }
+    }
 
     useEffect(() => {
         function onKeyUp(e: KeyboardEvent) {
             e.preventDefault()
-            const key = e.key
-
-            if (/^[a-zA-Z]$/.test(key)) {
-                addLetterToGuess$(key)
-            } else if (key === 'Backspace' || key === '{bksp}') {
-                removeLastLetterFromGuess$()
-            } else if (key === 'Enter' || key === '{enter}') {
-                incrementRow$()
-            }
+            handleInput(e.key)
         }
         window.addEventListener('keyup', onKeyUp)
 
@@ -44,8 +72,17 @@ export default function WordleGrid() {
 
     useEffect(() => {
         renewCurrentWord$(gameSettings$)
-        setCurrentRandomWord$(currentRandomWord$)
+        // setAllowInput$(true)
     }, [])
+
+    useEffect(() => {
+        setCurrentRandomWord$(currentRandomWord$)
+    }, [currentRandomWord$])
+
+    function hasUserWon(): boolean {
+        if (isGuessCorrect$()) return true
+        return false
+    }
 
     return (
         // words container

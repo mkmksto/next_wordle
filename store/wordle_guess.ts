@@ -15,19 +15,19 @@ interface IGuessStore {
     setCurrentRandomWord$: (curWord: string) => void
     allGuesses$: LetterGuess[][]
     currentRowIdx$: number
-    currentRow$: LetterGuess[]
+    currentRow$: () => LetterGuess[]
+    currentFlattenedGuess$: string
     addLetterToGuess$: (letterToAdd: string) => void
     removeLastLetterFromGuess$: () => void
     incrementRow$: () => void
+    isGuessCorrect$: () => boolean
 }
 
-// referencing state variables inside state functions: https://github.com/TePMo-Tapo4eK/Tic-Tac-Toe/blob/main/src/store/index.tsx
-// settings stores before returning: https://github.com/nexxeln/nexdle/blob/main/src/store.ts
-// computed properties: https://github.com/pmndrs/zustand/issues/132#issuecomment-669619250
 const guessStore = (set: any, get: any) => ({
     currentRandomWord$: '',
 
     setCurrentRandomWord$: (curWord: string) => {
+        console.log('setting rand word to guess store')
         set((state: IGuessStore) => {
             state.currentRandomWord$ = curWord
         })
@@ -42,7 +42,14 @@ const guessStore = (set: any, get: any) => ({
             state.currentRowIdx$++
         }),
 
-    currentRow$: () => get().allGuesses$[get().currentRowIdx$],
+    currentRow$: (): LetterGuess[] => get().allGuesses$[get().currentRowIdx$],
+
+    currentFlattenedGuess$: (): string =>
+        get()
+            .currentRow$()
+            .filter((l: LetterGuess) => !l.isBlank)
+            .map((l: LetterGuess) => l.letter)
+            .reduce((acc: string, l: LetterGuess) => acc + l, ''),
 
     addLetterToGuess$: (letterToAdd: string) => {
         const current = (): LetterGuess[] => get().currentRow$()
@@ -77,6 +84,12 @@ const guessStore = (set: any, get: any) => ({
             newState.splice(state.currentRowIdx$, 1, currentRow)
             state.allGuesses$ = newState
         })
+    },
+
+    isGuessCorrect$() {
+        const currentGuess = get().currentGuess$()
+        if (get().currentRandomWord$ === currentGuess) return true
+        return false
     },
 })
 

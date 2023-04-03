@@ -1,7 +1,7 @@
-import { create } from 'zustand'
-import { createJSONStorage, devtools, persist } from 'zustand/middleware'
-import type { IGameSettings } from '@/store/game_settings'
 import my_fetch from '@/services/my_fetch'
+import type { IGameSettings } from '@/store/game_settings'
+import { create } from 'zustand'
+import middleware from './zustand_middleware'
 
 interface IRandomWordState {
     currentRandomWord$: string
@@ -13,34 +13,33 @@ interface IRandomWordState {
 //     random_word: string
 // }
 
-// const peopleStore = (set: any) => ({
-//     people: ['Mary Sue', 'Jane Doe'],
-//     addPerson: (person: string) =>
-//         set((state: IPeopleState) => ({ people: [...state.people, person] })),
-// })
-
 const wordStore = (set: any) => ({
     currentRandomWord$: '',
+
     async renewCurrentWord$(gameSettings: IGameSettings) {
-        const [backendData, error] = await my_fetch('/api/get_random_word')
-        if (error) this.clearCurrentWord$()
-        set((_state: IRandomWordState) => ({ currentRandomWord$: backendData }))
+        // TODO: send game settings as body to endpoint
+        const [backendData, error] = await my_fetch('/api/get_random_word', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(gameSettings),
+        })
+        if (error) {
+            set((state: IRandomWordState) => {
+                state.clearCurrentWord$()
+            })
+            return
+        }
+        set((state: IRandomWordState) => {
+            state.currentRandomWord$ = backendData.random_word
+        })
     },
-    clearCurrentWord$() {
-        set((_state: IRandomWordState) => ({ currentRandomWord$: '' }))
-    },
+
+    clearCurrentWord$: () => set((state: IRandomWordState) => (state.currentRandomWord$ = '')),
 })
 
-const useRandomWordStore = create<IRandomWordState>()(devtools(wordStore))
+const useRandomWordStore$ = create<IRandomWordState>()(middleware(wordStore))
 
-// // persist: https://github.com/pmndrs/zustand#persist-middleware
-// const usePeopleStore = create<IPeopleState>()(
-//     devtools(
-//         persist(peopleStore, {
-//             name: 'people-store',
-//             storage: createJSONStorage(() => localStorage),
-//         }),
-//     ),
-// )
-
-export default useRandomWordStore
+export default useRandomWordStore$

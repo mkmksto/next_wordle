@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import middleware from './zustand_middleware'
+import { immer } from 'zustand/middleware/immer'
 
 export interface IGameSettings {
     num_chars: number
@@ -9,6 +10,7 @@ export interface IGameSettings {
 interface GameSettingsStore {
     gameSettings$: { num_chars: number; difficulty: string }
     changeNumChars$: (newSize: number) => void
+    changeDifficulty$: () => void
     resetGameSettings$: () => void
 }
 
@@ -31,6 +33,6 @@ const gameSettings = (set: any, get: any) => ({
         }),
 })
 
-const useGameSettings$ = create<GameSettingsStore>()(middleware(gameSettings))
+const useGameSettings$ = create<GameSettingsStore>()(immer(gameSettings))
 
 export default useGameSettings$

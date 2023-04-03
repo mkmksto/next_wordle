@@ -4,6 +4,7 @@ import {
     get_dictfiles_path,
 } from './file_utils'
 import my_fetch from './my_fetch'
+import { get_random_item } from '@/services/misc_utils'
 
 class EnglishDict {
     data: {}
@@ -42,10 +43,6 @@ async function EnglishDictSingleton() {
     const consolidated_dict_data = await get_consolidated_dict_data(all_file_paths)
 
     return new EnglishDict(consolidated_dict_data)
-}
-
-function get_random_item<T>(arr: T[]): T {
-    return arr[Math.floor(arr.length * Math.random())]
 }
 
 // (cahced singleton) https://medium.com/swlh/node-js-and-singleton-pattern-7b08d11c726a

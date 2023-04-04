@@ -1,5 +1,7 @@
+import { allowed_guesses } from '@/data/allowed_guesses'
 import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
+import { immer } from 'zustand/middleware/immer'
 import middleware from './zustand_middleware'
 
 export interface LetterGuess {
@@ -15,11 +17,13 @@ interface IGuessStore {
     setCurrentRandomWord$: (curWord: string) => void
     allGuesses$: LetterGuess[][]
     currentRowIdx$: number
+    incrementRow$: () => void
     currentRow$: () => LetterGuess[]
-    currentFlattenedGuess$: string
+    currentFlattenedGuess$: () => string
     addLetterToGuess$: (letterToAdd: string) => void
     removeLastLetterFromGuess$: () => void
-    incrementRow$: () => void
+    isCurrentRowFilled$: () => boolean
+    isGuessValid$(): () => Promise<boolean>
     isGuessCorrect$: () => boolean
 }
 
@@ -27,7 +31,6 @@ const guessStore = (set: any, get: any) => ({
     currentRandomWord$: '',
 
     setCurrentRandomWord$: (curWord: string) => {
-        console.log('setting rand word to guess store')
         set((state: IGuessStore) => {
             state.currentRandomWord$ = curWord
         })
@@ -86,13 +89,26 @@ const guessStore = (set: any, get: any) => ({
         })
     },
 
+    isCurrentRowFilled$: () =>
+        get().currentRandomWord$.length === get().currentFlattenedGuess$().length,
+
+    async isGuessValid$() {
+        if (allowed_guesses.includes(get().currentFlattenedGuess$())) return true
+        // TODO: implement validating guess from backend API call
+        return false
+    },
+
+    isAllRowsFilled$() {
+        //
+    },
+
     isGuessCorrect$() {
-        if (get().currentRandomWord$ === get().currentGuess$()) return true
+        if (get().currentRandomWord$ === get().currentFlattenedGuess$()) return true
         return false
     },
 })
 
-const useGuessTracker$ = create<IGuessStore>()(middleware(guessStore))
+const useGuessTracker$ = create<IGuessStore>()(immer(guessStore))
 export default useGuessTracker$
 
 function generateEmptyGuessArray(wordSize: number): LetterGuess[][] {

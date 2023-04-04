@@ -20,12 +20,14 @@ interface IGuessStore {
     currentRowIdx$: number
     incrementRow$: () => void
     currentRow$: () => LetterGuess[]
+    currentGuessArr$: () => LetterGuess[]
     currentFlattenedGuess$: () => string
     addLetterToGuess$: (letterToAdd: string) => void
     removeLastLetterFromGuess$: () => void
     isCurrentRowFilled$: () => boolean
     isGuessValid$: (cur_word_difficulty: string) => Promise<boolean>
     isGuessCorrect$: () => boolean
+    setValidityOfEachLetterInGuess$: () => void
 }
 
 const guessStore = (set: any, get: any) => ({
@@ -50,6 +52,11 @@ const guessStore = (set: any, get: any) => ({
     //     return get().allGuesses$[get().currentRowIdx$]
     // },
     currentRow$: (): LetterGuess[] => get().allGuesses$[get().currentRowIdx$],
+
+    currentGuessArr$: (): LetterGuess[] =>
+        get()
+            .currentRow$()
+            .filter((l: LetterGuess) => !l.isBlank),
 
     currentFlattenedGuess$: (): string =>
         get()
@@ -117,9 +124,50 @@ const guessStore = (set: any, get: any) => ({
         if (get().currentRandomWord$ === get().currentFlattenedGuess$()) return true
         return false
     },
+
+    setValidityOfEachLetterInGuess$() {
+        const guessLetterPool: string[] = []
+        const curRandWord: string = get().currentRandomWord$
+        const validLetters: string[] = curRandWord.split('')
+        const mutatedCurGuessObj: LetterGuess[] = JSON.parse(
+            JSON.stringify(get().currentGuessArr$()),
+        )
+
+        for (let i = 0; i < curRandWord.length; i++) {
+            // letter is an exact match at the exact index
+            if (mutatedCurGuessObj[i].letter === curRandWord[i]) {
+                mutatedCurGuessObj[i].isLetterInCorrectPosition = true
+                // push empty char so that the indices for comparison still match
+                guessLetterPool.push(' ')
+
+                // if exact match, remove letter from validLetters for comparison
+                // this is to prevent cases like e.g. the word is `ellis` and typing `eager`
+                // would make the first `e` green, but would still make
+                // the second `e` yellow (should be grey)
+                const idxAtvalidLettersArr = validLetters.indexOf(curRandWord[i])
+                validLetters.splice(idxAtvalidLettersArr, 1)
+            } else {
+                // if not an exact match, throw into pool for later comparison
+                guessLetterPool.push(mutatedCurGuessObj[i].letter)
+            }
+        }
+
+        for (let i = 0; i < curRandWord.length; i++) {
+            if (validLetters.includes(guessLetterPool[i])) {
+                mutatedCurGuessObj[i].isLetterInWord = true
+            }
+        }
+
+        // set new state
+        set((state: IGuessStore) => {
+            const newState: LetterGuess[][] = JSON.parse(JSON.stringify(state.allGuesses$))
+            newState.splice(state.currentRowIdx$, 1, mutatedCurGuessObj)
+            state.allGuesses$ = newState
+        })
+    },
 })
 
-const useGuessTracker$ = create<IGuessStore>()(immer(guessStore))
+const useGuessTracker$ = create<IGuessStore>()(middleware(guessStore))
 export default useGuessTracker$
 
 async function getGuessValidityBasedOnFrequency(

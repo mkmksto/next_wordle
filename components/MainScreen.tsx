@@ -13,6 +13,9 @@ export default function GameBox() {
     const isGuessCorrect$ = useGuessTracker$((state) => state.isGuessCorrect$)
     const isCurrentRowFilled$ = useGuessTracker$((state) => state.isCurrentRowFilled$)
     const isGuessValid$ = useGuessTracker$((state) => state.isGuessValid$)
+    const setValidityOfEachLetterInGuess$ = useGuessTracker$(
+        (state) => state.setValidityOfEachLetterInGuess$,
+    )
 
     const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
     const setWonState$ = useGameState$((state) => state.setWonState$)
@@ -21,6 +24,9 @@ export default function GameBox() {
 
     async function onEnter() {
         setAllowInput$(false)
+
+        setValidityOfEachLetterInGuess$()
+
         if (hasUserWon()) {
             console.log('user has won!')
             setAllowInput$(false)

@@ -1,4 +1,5 @@
 import useGameState$ from '@/store/game_state'
+import useGameSettings$ from '@/store/game_settings'
 import useGuessTracker$ from '@/store/wordle_guess'
 import Keyboard from './Keyboard'
 import WordleGrid from './WordleGrid'
@@ -13,10 +14,10 @@ export default function GameBox() {
     const isCurrentRowFilled$ = useGuessTracker$((state) => state.isCurrentRowFilled$)
     const isGuessValid$ = useGuessTracker$((state) => state.isGuessValid$)
 
-    // const allowInput$ = useGameState$((state) => state.allowInput$)
     const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
-    // const hasWon$ = useGameState$((state) => state.hasWon$)
     const setWonState$ = useGameState$((state) => state.setWonState$)
+
+    const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
 
     async function onEnter() {
         setAllowInput$(false)
@@ -36,7 +37,7 @@ export default function GameBox() {
             return
         }
 
-        if (!(await isGuessValid$())) {
+        if (!(await isGuessValid$(gameSettings$.difficulty))) {
             // TODO:
             // show invalid guess modal
             // await sleep(1000)

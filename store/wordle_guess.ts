@@ -1,4 +1,5 @@
 import { allowed_guesses } from '@/data/allowed_guesses'
+import my_fetch from '@/services/my_fetch'
 import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
@@ -23,7 +24,7 @@ interface IGuessStore {
     addLetterToGuess$: (letterToAdd: string) => void
     removeLastLetterFromGuess$: () => void
     isCurrentRowFilled$: () => boolean
-    isGuessValid$(): () => Promise<boolean>
+    isGuessValid$: (cur_word_difficulty: string) => Promise<boolean>
     isGuessCorrect$: () => boolean
 }
 
@@ -95,9 +96,16 @@ const guessStore = (set: any, get: any) => ({
     isCurrentRowFilled$: () =>
         get().currentRandomWord$.length === get().currentFlattenedGuess$().length,
 
-    async isGuessValid$() {
+    async isGuessValid$(cur_word_difficulty: string) {
         if (allowed_guesses.includes(get().currentFlattenedGuess$())) return true
-        // TODO: implement validating guess from backend API call
+        if (
+            await getGuessValidityBasedOnFrequency(
+                get().currentFlattenedGuess$(),
+                cur_word_difficulty,
+            )
+        )
+            return true
+
         return false
     },
 
@@ -113,6 +121,26 @@ const guessStore = (set: any, get: any) => ({
 
 const useGuessTracker$ = create<IGuessStore>()(immer(guessStore))
 export default useGuessTracker$
+
+async function getGuessValidityBasedOnFrequency(
+    word_to_test: string,
+    cur_word_difficulty: string,
+) {
+    const [validity, error] = await my_fetch('/api/test_if_guess_is_valid', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            word_to_test: word_to_test,
+            cur_word_difficulty: cur_word_difficulty,
+        }),
+    })
+
+    if (error) return false
+    return validity.validity
+}
 
 function generateEmptyGuessArray(wordSize: number): LetterGuess[][] {
     const finalArr: LetterGuess[][] = []

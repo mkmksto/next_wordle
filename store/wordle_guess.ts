@@ -45,6 +45,9 @@ const guessStore = (set: any, get: any) => ({
             state.currentRowIdx$++
         }),
 
+    // get currentRow$() {
+    //     return get().allGuesses$[get().currentRowIdx$]
+    // },
     currentRow$: (): LetterGuess[] => get().allGuesses$[get().currentRowIdx$],
 
     currentFlattenedGuess$: (): string =>

@@ -22,7 +22,7 @@
     }
 
     .wordle-letter {
-        @apply flex items-center justify-center w-16 h-16 rounded-xl border-[3px] border-white text-white;
+        @apply flex items-center justify-center w-16 h-16 rounded-xl border-[3px] border-white text-white bg-transparent;
     }
 
     .wordle-word {

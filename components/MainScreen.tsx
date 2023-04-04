@@ -19,6 +19,7 @@ export default function GameBox() {
 
     const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
     const setWonState$ = useGameState$((state) => state.setWonState$)
+    const toggleColorRevealSwitch$ = useGameState$((state) => state.toggleColorRevealSwitch$)
 
     const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
 
@@ -26,6 +27,7 @@ export default function GameBox() {
         setAllowInput$(false)
 
         setValidityOfEachLetterInGuess$()
+        toggleColorRevealSwitch$()
 
         if (hasUserWon()) {
             console.log('user has won!')

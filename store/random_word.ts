@@ -1,7 +1,6 @@
 import my_fetch from '@/services/my_fetch'
 import type { IGameSettings } from '@/store/game_settings'
 import { create } from 'zustand'
-import middleware from './zustand_middleware'
 import { immer } from 'zustand/middleware/immer'
 
 interface IRandomWordState {

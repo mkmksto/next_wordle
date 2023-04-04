@@ -1,17 +1,19 @@
 import { create } from 'zustand'
-import { immer } from 'zustand/middleware/immer'
+// import { immer } from 'zustand/middleware/immer'
+import middleware from './zustand_middleware'
 
 interface IGameState {
-    winState$: boolean
-    loseState$: boolean
+    hasWon$: boolean
+    hasLost$: boolean
     allowInput$: boolean
     setAllowInput$: (bool: boolean) => void
+    setWonState$: (bool: boolean) => void
     resetGameStates$: () => void
 }
 
 const gameState = (set: any) => ({
-    winState$: false,
-    loseState$: false,
+    hasWon$: false,
+    hasLost$: false,
     allowInput$: true,
 
     setAllowInput$: (bool: boolean) =>
@@ -19,14 +21,19 @@ const gameState = (set: any) => ({
             state.allowInput$ = bool
         }),
 
+    setWonState$: (bool: boolean) =>
+        set((state: IGameState) => {
+            state.hasWon$ = bool
+        }),
+
     resetGameStates$: () =>
         set((state: IGameState) => {
-            state.winState$ = false
-            state.loseState$ = false
+            state.hasWon$ = false
+            state.hasLost$ = false
             state.allowInput$ = false
         }),
 })
 
-const useGameState$ = create<IGameState>()(immer(gameState))
+const useGameState$ = create<IGameState>()(middleware(gameState))
 
 export default useGameState$

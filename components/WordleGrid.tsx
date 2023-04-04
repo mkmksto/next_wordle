@@ -27,12 +27,16 @@ export default function WordleGrid() {
     )
     const incrementRow$ = useGuessTracker$((state) => state.incrementRow$)
     const isGuessCorrect$ = useGuessTracker$((state) => state.isGuessCorrect$)
+    const isCurrentRowFilled$ = useGuessTracker$((state) => state.isCurrentRowFilled$)
+    const isGuessValid$ = useGuessTracker$((state) => state.isGuessValid$)
 
     const allowInput$ = useGameState$((state) => state.allowInput$)
     const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
+    const hasWon$ = useGameState$((state) => state.hasWon$)
+    const setWonState$ = useGameState$((state) => state.setWonState$)
 
     function handleInput(key: string) {
-        if (!allowInput$) return
+        if (hasWon$ || !allowInput$) return
         if (/^[a-zA-Z]$/.test(key)) {
             addLetterToGuess$(key)
         } else if (key === 'Backspace' || key === '{bksp}') {
@@ -43,21 +47,31 @@ export default function WordleGrid() {
     }
 
     async function onEnter() {
-        setAllowInput$(false)
-        try {
-            if (hasUserWon()) {
-                console.log('user has won!')
-                setAllowInput$(false)
-                await sleep(1000)
-                return
-            }
+        if (hasUserWon()) {
+            console.log('user has won!')
+            setAllowInput$(false)
+            setWonState$(true)
+            // await sleep(1000)
 
-            incrementRow$()
-        } catch (err) {
-            console.error(err)
-        } finally {
-            setAllowInput$(true)
+            return
         }
+
+        if (!isCurrentRowFilled$()) {
+            console.log('row isnt filled')
+            return
+        }
+
+        if (!(await isGuessValid$())) {
+            // TODO:
+            // show invalid guess modal
+            // await sleep(1000)
+            // remove invalid guess modal
+            console.log('invalid guess bitch!')
+            // setAllowInput$(true)
+            return
+        }
+
+        incrementRow$()
     }
 
     useEffect(() => {
@@ -77,7 +91,7 @@ export default function WordleGrid() {
 
     useEffect(() => {
         setCurrentRandomWord$(currentRandomWord$)
-    }, [currentRandomWord$])
+    }, [setCurrentRandomWord$, currentRandomWord$])
 
     function hasUserWon(): boolean {
         if (isGuessCorrect$()) return true

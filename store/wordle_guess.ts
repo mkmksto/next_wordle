@@ -11,6 +11,7 @@ export interface LetterGuess {
     isBlank: boolean
     isLetterInWord: boolean
     isLetterInCorrectPosition: boolean
+    colorRevealValue: string
 }
 
 interface IGuessStore {
@@ -28,6 +29,7 @@ interface IGuessStore {
     isGuessValid$: (cur_word_difficulty: string) => Promise<boolean>
     isGuessCorrect$: () => boolean
     setValidityOfEachLetterInGuess$: () => void
+    setColorRevealValue$: (uuid: string, colorRevealClass: string) => void
 }
 
 const guessStore = (set: any, get: any) => ({
@@ -165,6 +167,20 @@ const guessStore = (set: any, get: any) => ({
             state.allGuesses$ = newState
         })
     },
+
+    setColorRevealValue$: (uuid: string, colorRevealClass: string) => {
+        const mutatedCurGuessObj: LetterGuess[] = JSON.parse(
+            JSON.stringify(get().currentGuessArr$()),
+        )
+        const letter = mutatedCurGuessObj.find((l) => l.id === uuid)
+        if (!letter) return
+        letter.colorRevealValue = colorRevealClass
+        set((state: IGuessStore) => {
+            const newState: LetterGuess[][] = JSON.parse(JSON.stringify(state.allGuesses$))
+            newState.splice(state.currentRowIdx$, 1, mutatedCurGuessObj)
+            state.allGuesses$ = newState
+        })
+    },
 })
 
 const useGuessTracker$ = create<IGuessStore>()(middleware(guessStore))
@@ -201,6 +217,7 @@ function generateEmptyGuessArray(wordSize: number): LetterGuess[][] {
                 isBlank: true,
                 isLetterInWord: false,
                 isLetterInCorrectPosition: false,
+                colorRevealValue: '',
             })
         }
         finalArr.push(nestedArr)

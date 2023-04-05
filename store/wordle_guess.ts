@@ -39,7 +39,7 @@ const guessStore = (set: any, get: any) => ({
 
     setCurrentRandomWord$: (curWord: string): void => {
         set((state: IGuessStore) => {
-            state.currentRandomWord$ = curWord
+            state.currentRandomWord$ = curWord.toLowerCase()
         })
     },
 

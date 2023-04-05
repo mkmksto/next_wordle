@@ -30,6 +30,7 @@ export default function MainScreen() {
 
     const setInvalidGuessModal$ = useModalState$((state) => state.setInvalidGuessModal$)
     const setGameWonModal$ = useModalState$((state) => state.setGameWonModal$)
+    const setGameLostModal$ = useModalState$((state) => state.setGameLostModal$)
 
     async function onEnter() {
         setAllowInput$(false)
@@ -53,7 +54,7 @@ export default function MainScreen() {
         await sleep(1500)
 
         if (hasUserWon()) {
-            console.log('user has won!')
+            // console.log('user has won!')
             setAllowInput$(false)
             await sleep(50)
             setGameWonModal$(true)
@@ -67,6 +68,7 @@ export default function MainScreen() {
             setAllowInput$(false)
             setWonState$(false)
             setLoseState$(true)
+            setGameLostModal$(true)
             return
         }
 

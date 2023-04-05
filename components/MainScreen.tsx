@@ -3,6 +3,7 @@ import useGameSettings$ from '@/store/game_settings'
 import useGuessTracker$ from '@/store/wordle_guess'
 import Keyboard from './Keyboard'
 import WordleGrid from './WordleGrid'
+import { sleep } from '@/services/misc_utils'
 
 export default function MainScreen() {
     const addLetterToGuess$ = useGuessTracker$((state) => state.addLetterToGuess$)
@@ -26,31 +27,13 @@ export default function MainScreen() {
     async function onEnter() {
         setAllowInput$(false)
 
-        setValidityOfEachLetterInGuess$()
-        toggleColorRevealSwitch$()
-
-        if (hasUserWon()) {
-            console.log('user has won!')
-            setAllowInput$(false)
-            setWonState$(true)
-            // await sleep(1000)
-
-            return
-        }
-
         if (!isCurrentRowFilled$()) {
             console.log('row isnt filled')
-
             setAllowInput$(true)
             return
         }
-
-        // !IMPORTANT: TODO:
-        // you probably have to change how `isGuessValid$` works
-        // you might have to explicitly pass the guess here instead of relying on the
-        // value inside the store, it's causing a bug where the colors of the letters
-        // can be set even on invalid guesses
-        if (!(await isGuessValid$(gameSettings$.difficulty))) {
+        const isGuessValid = await isGuessValid$(gameSettings$.difficulty)
+        if (!isGuessValid) {
             // TODO:
             // show invalid guess modal
             // await sleep(1000)
@@ -58,6 +41,26 @@ export default function MainScreen() {
             console.log('invalid guess bitch!')
 
             setAllowInput$(true)
+            return
+        }
+        console.log('valid guess')
+
+        setValidityOfEachLetterInGuess$()
+        // !IMPORTANT: this WAS the line causing the weird bug, apparently when you toggle
+        // something that causes a rerender, the rerender happens async
+        // so this entire code block finishes before the `useEffect` inside `WordleRow.tsx` even runs
+        // as such it takes an already increment row value of 1 causing the issue where the current row
+        // colors aren't even updated
+        toggleColorRevealSwitch$()
+        // SOLUTION:
+        await sleep(1500)
+
+        if (hasUserWon()) {
+            console.log('user has won!')
+            setAllowInput$(false)
+            setWonState$(true)
+            // await sleep(1000)
+
             return
         }
 

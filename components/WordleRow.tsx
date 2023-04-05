@@ -73,15 +73,16 @@ function WordleLetter({ letterObj, letterIdx }: LetterProps) {
     const setColorRevealValue$ = useGuessTracker$((state) => state.setColorRevealValue$)
 
     useEffect(() => {
+        console.log('color reveal switch has been toggled', colorRevealToggleSwitch$)
         if (letterObj.isLetterInWord) {
             setColorRevealValue$(letterObj.id, `bg-yellow-500`)
         } else if (letterObj.isLetterInCorrectPosition) {
             setColorRevealValue$(letterObj.id, `bg-green-500`)
         } else if (!letterObj.isLetterInWord) {
-            setColorRevealValue$(letterObj.id, `bg-neutral-400`)
+            setColorRevealValue$(letterObj.id, `bg-neutral-300`)
         }
         if (letterObj.isBlank) setColorRevealValue$(letterObj.id, '')
-    }, [colorRevealToggleSwitch$])
+    }, [colorRevealToggleSwitch$, setColorRevealValue$])
 
     return (
         <div

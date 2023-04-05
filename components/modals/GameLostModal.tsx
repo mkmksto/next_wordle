@@ -11,26 +11,7 @@ export default function GameWonModal() {
     const showGameLostModal$ = useModalState$((state) => state.showGameLostModal$)
     const currentRandomWord$ = useRandomWordStore$((state) => state.currentRandomWord$)
 
-    const {
-        resetGameStates$,
-        setAllowInput$,
-        resetModals$,
-        renewCurrentWord$,
-        resetGuessTrackingStore$,
-        changeNumBoxesPerRow$,
-        gameSettings$,
-    } = useResetGame()
-
-    async function handleReset() {
-        resetGameStates$()
-        resetModals$()
-        // remove keyboard colors
-        changeNumBoxesPerRow$(gameSettings$.num_chars)
-        resetGuessTrackingStore$()
-
-        await renewCurrentWord$(gameSettings$)
-        setAllowInput$(true)
-    }
+    const handleReset = useResetGame()
 
     if (!showGameLostModal$) return null
 

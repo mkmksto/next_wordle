@@ -10,7 +10,6 @@ export default function useResetGame() {
 
     const resetModals$ = useModalState$((state) => state.resetModals$)
 
-    const clearCurRandomWord$ = useRandomWordStore$((state) => state.clearCurRandomWord$)
     const renewCurrentWord$ = useRandomWordStore$((state) => state.renewCurrentWord$)
 
     const resetGuessTrackingStore$ = useGuessTracker$((state) => state.resetGuessTrackingStore$)
@@ -29,24 +28,5 @@ export default function useResetGame() {
         setAllowInput$(true)
     }
 
-    // resetGameStates$()
-    // resetModals$()
-    // // remove keyboard colors
-    // changeNumBoxesPerRow$(gameSettings$.num_chars)
-    // clearCurRandomWord$()
-    // resetGuessTrackingStore$()
-    //
-    // await renewCurrentWord$(gameSettings$)
-    // setAllowInput$(true)
-
-    return {
-        resetGameStates$,
-        setAllowInput$,
-        resetModals$,
-        clearCurRandomWord$,
-        renewCurrentWord$,
-        resetGuessTrackingStore$,
-        changeNumBoxesPerRow$,
-        gameSettings$,
-    }
+    return handleReset
 }

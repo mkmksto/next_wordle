@@ -29,6 +29,7 @@ export default function MainScreen() {
     const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
 
     const setInvalidGuessModal$ = useModalState$((state) => state.setInvalidGuessModal$)
+    const setGameWonModal$ = useModalState$((state) => state.setGameWonModal$)
 
     async function onEnter() {
         setAllowInput$(false)
@@ -38,16 +39,8 @@ export default function MainScreen() {
             setAllowInput$(true)
             return
         }
-        const isGuessValid = await isGuessValid$(gameSettings$.difficulty)
-        if (!isGuessValid) {
-            setInvalidGuessModal$(true)
-            // TODO: show some sort of validating answer spinner or something
-            await sleep(1000)
-            setInvalidGuessModal$(false)
-            setAllowInput$(true)
-            return
-        }
-        console.log('valid guess')
+        const valid = await isGuessValid()
+        if (!valid) return
 
         setValidityOfEachLetterInGuess$()
         // !IMPORTANT: this WAS the line causing the weird bug, apparently when you toggle
@@ -62,7 +55,8 @@ export default function MainScreen() {
         if (hasUserWon()) {
             console.log('user has won!')
             setAllowInput$(false)
-            await sleep(1000)
+            await sleep(50)
+            setGameWonModal$(true)
             setWonState$(true)
             setLoseState$(false)
             return
@@ -90,6 +84,20 @@ export default function MainScreen() {
             return true
         }
         return false
+    }
+
+    async function isGuessValid(): Promise<boolean> {
+        const valid = await isGuessValid$(gameSettings$.difficulty)
+        console.log('is guess valid? :', valid)
+        if (!valid) {
+            setInvalidGuessModal$(true)
+            // TODO: show some sort of validating answer spinner or something
+            await sleep(1000)
+            setInvalidGuessModal$(false)
+            setAllowInput$(true)
+            return false
+        }
+        return true
     }
 
     return (

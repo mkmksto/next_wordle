@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import { useState } from 'react'
 import InvalidGuessModal from '@/components/modals/InvalidGuessModal'
+import GameWonModal from '@/components/modals/GameWonModal'
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -30,6 +31,8 @@ export default function Home() {
             />
 
             <InvalidGuessModal />
+
+            <GameWonModal />
 
             <main
                 className={`${inter.className} grid grid-cols-[6rem_1fr] overflow-hidden h-screen w-screen"`}

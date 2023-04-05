@@ -4,7 +4,7 @@ import useGuessTracker$ from '@/store/wordle_guess'
 import Keyboard from './Keyboard'
 import WordleGrid from './WordleGrid'
 
-export default function GameBox() {
+export default function MainScreen() {
     const addLetterToGuess$ = useGuessTracker$((state) => state.addLetterToGuess$)
     const removeLastLetterFromGuess$ = useGuessTracker$(
         (state) => state.removeLastLetterFromGuess$,
@@ -45,6 +45,11 @@ export default function GameBox() {
             return
         }
 
+        // !IMPORTANT: TODO:
+        // you probably have to change how `isGuessValid$` works
+        // you might have to explicitly pass the guess here instead of relying on the
+        // value inside the store, it's causing a bug where the colors of the letters
+        // can be set even on invalid guesses
         if (!(await isGuessValid$(gameSettings$.difficulty))) {
             // TODO:
             // show invalid guess modal

@@ -7,7 +7,7 @@ interface Data {
 }
 
 // index signature
-const diff_to_freq_map: { [key: string]: number } = {
+export const diff_to_freq_map: { [key: string]: number } = {
     easy: 5,
     medium: 0.1,
     hard: 0.01,

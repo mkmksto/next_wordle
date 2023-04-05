@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { diff_to_freq_map, IValidDifficultyValues } from './get_random_word'
+import { diff_to_freq_map } from './get_random_word'
 import EnglishDictSingleton from '@/services/english_dictionary'
 
 interface Data {
@@ -8,7 +8,7 @@ interface Data {
 
 interface FrontendPayload {
     word_to_test: string
-    cur_word_difficulty: IValidDifficultyValues
+    cur_word_difficulty: 'easy' | 'medium' | 'hard' | 'very_hard'
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {

@@ -6,7 +6,7 @@ import { immer } from 'zustand/middleware/immer'
 interface IRandomWordState {
     currentRandomWord$: string
     renewCurrentWord$: (gameSettings: IGameSettings) => Promise<void>
-    clearCurrentWord$: () => void
+    clearCurRandomWord$: () => void
 }
 
 // interface IBackendRandWordResponse {
@@ -28,7 +28,7 @@ const wordStore = (set: any) => ({
         })
         if (error) {
             set((state: IRandomWordState) => {
-                state.clearCurrentWord$()
+                state.clearCurRandomWord$()
             })
             return
         }
@@ -37,7 +37,7 @@ const wordStore = (set: any) => ({
         })
     },
 
-    clearCurrentWord$: () => set((state: IRandomWordState) => (state.currentRandomWord$ = '')),
+    clearCurRandomWord$: () => set((state: IRandomWordState) => (state.currentRandomWord$ = '')),
 })
 
 const useRandomWordStore$ = create<IRandomWordState>()(immer(wordStore))

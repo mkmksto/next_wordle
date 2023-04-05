@@ -7,6 +7,7 @@ interface Store {
     showInfoModal$: boolean
     showGameWonModal$: boolean
     showGameLostModal$: boolean
+    resetModals$: () => void
     setInvalidGuessModal$: (bool: boolean) => void
     setInfoModal$: (bool: boolean) => void
     setGameWonModal$: (bool: boolean) => void
@@ -21,6 +22,14 @@ const modalStore = (set: any) => ({
     showGameWonModal$: false,
 
     showGameLostModal$: false,
+
+    resetModals$: (): void =>
+        set((state: Store) => {
+            state.showInvalidGuessModal$ = false
+            state.showInfoModal$ = false
+            state.showGameWonModal$ = false
+            state.showGameLostModal$ = false
+        }),
 
     setInvalidGuessModal$: (bool: boolean): void =>
         set((state: Store) => {
@@ -43,6 +52,6 @@ const modalStore = (set: any) => ({
         }),
 })
 
-const useModalState$ = create<Store>()(middleware(modalStore))
+const useModalState$ = create<Store>()(immer(modalStore))
 
 export default useModalState$

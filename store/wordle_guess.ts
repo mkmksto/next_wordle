@@ -19,6 +19,8 @@ interface IGuessStore {
     setCurrentRandomWord$: (curWord: string) => void
     allGuesses$: LetterGuess[][]
     currentRowIdx$: number
+    resetGuessTrackingStore$: () => void
+    changeNumBoxesPerRow$: (gameSettingsNumChars: number) => void
     incrementRow$: () => void
     currentRow$: () => LetterGuess[]
     isCurrentRowTheLastRow$: () => boolean
@@ -46,6 +48,17 @@ const guessStore = (set: any, get: any) => ({
     allGuesses$: generateEmptyGuessArray(5),
 
     currentRowIdx$: 0,
+
+    resetGuessTrackingStore$: (): void =>
+        set((state: IGuessStore) => {
+            state.currentRandomWord$ = ''
+            state.currentRowIdx$ = 0
+        }),
+
+    changeNumBoxesPerRow$: (gameSettingsNumChars: number): void =>
+        set((state: IGuessStore) => {
+            state.allGuesses$ = generateEmptyGuessArray(gameSettingsNumChars)
+        }),
 
     incrementRow$: (): void =>
         set((state: IGuessStore) => {

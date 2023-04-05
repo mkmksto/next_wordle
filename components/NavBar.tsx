@@ -2,6 +2,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai'
 import { BsGear, BsFlag } from 'react-icons/bs'
 import { MdRestartAlt } from 'react-icons/md'
 import { Space_Grotesk } from 'next/font/google'
+import useResetGame from '@/hooks/useResetGame'
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export default function NavBar({ onSettingsClicked }: Props) {
+    const handleReset = useResetGame()
+
     return (
         <nav className="h-screen z-50 flex flex-col items-center justify-around">
             <ul>
@@ -35,7 +38,7 @@ export default function NavBar({ onSettingsClicked }: Props) {
                         <BsFlag className="text-neutral-500" />
                     </li>
                     <li className="nav-list mt-2 mb-8">
-                        <MdRestartAlt className="text-neutral-500" />
+                        <MdRestartAlt onClick={handleReset} className="text-neutral-500" />
                     </li>
                 </ul>
             </div>

@@ -71,7 +71,7 @@ export default function MainScreen() {
     }
 
     return (
-        <div className={`flex flex-col items-center justify-center h-full w-full`}>
+        <div className={`flex flex-col items-center justify-center h-full w-full -translate-x-16`}>
             <WordleGrid />
             <Keyboard
                 onKeyboardUp={(keyStroke) => addLetterToGuess$(keyStroke)}

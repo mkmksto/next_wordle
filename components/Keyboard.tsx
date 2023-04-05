@@ -32,7 +32,5 @@ export default function Keyboard({ onKeyboardUp, onBackSpace, onEnter }: Props) 
         return () => window.removeEventListener('keyup', onKeyUp)
     }, [allowInput$, hasWon$, onKeyboardUp, onBackSpace, onEnter])
 
-    return (
-        <div className="w-[540px] h-48 rounded-[2.5rem] mt-8 border-[3px] border-orange-600"></div>
-    )
+    return <div className="w-[540px] h-48 rounded-[2.5rem] mt-6 shadow-lg"></div>
 }

@@ -17,23 +17,25 @@ export default function NavBar({ onSettingsClicked }: Props) {
         <nav className="h-screen z-50 flex flex-col items-center justify-around">
             <ul>
                 <li className="nav-list">
-                    <AiOutlineInfoCircle />
+                    <AiOutlineInfoCircle className="text-neutral-500" />
                 </li>
                 <li onClick={() => onSettingsClicked()} className="nav-list mt-4">
-                    <BsGear />
+                    <BsGear className="text-neutral-500" />
                 </li>
             </ul>
-            <div className={`select-none ${spaceGrotesk.className} font-sans vert-text`}>
+            <div
+                className={`select-none ${spaceGrotesk.className} font-sans vert-text bg-orange-400 py-4 text-white rounded-2xl mb-10`}
+            >
                 WORDLE
             </div>
 
             <div>
                 <ul>
                     <li className="nav-list">
-                        <BsFlag />
+                        <BsFlag className="text-neutral-500" />
                     </li>
-                    <li className="nav-list mt-4">
-                        <MdRestartAlt />
+                    <li className="nav-list mt-2 mb-8">
+                        <MdRestartAlt className="text-neutral-500" />
                     </li>
                 </ul>
             </div>

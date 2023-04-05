@@ -4,6 +4,7 @@ import SettingsModalContainer from '@/components/modals/SettingsModalContainer'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import { useState } from 'react'
+import InvalidGuessModal from '@/components/modals/InvalidGuessModal'
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -27,6 +28,8 @@ export default function Home() {
                 onModalBgClicked={() => setShowModal(false)}
                 onCloseSettingsModal={() => setShowModal(false)}
             />
+
+            <InvalidGuessModal />
 
             <main
                 className={`${inter.className} grid grid-cols-[6rem_1fr] overflow-hidden h-screen w-screen"`}

@@ -4,6 +4,7 @@ import useGuessTracker$ from '@/store/wordle_guess'
 import Keyboard from './Keyboard'
 import WordleGrid from './WordleGrid'
 import { sleep } from '@/services/misc_utils'
+import useModalState$ from '@/store/modal_states'
 
 export default function MainScreen() {
     const addLetterToGuess$ = useGuessTracker$((state) => state.addLetterToGuess$)
@@ -27,6 +28,8 @@ export default function MainScreen() {
 
     const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
 
+    const setInvalidGuessModal$ = useModalState$((state) => state.setInvalidGuessModal$)
+
     async function onEnter() {
         setAllowInput$(false)
 
@@ -37,12 +40,10 @@ export default function MainScreen() {
         }
         const isGuessValid = await isGuessValid$(gameSettings$.difficulty)
         if (!isGuessValid) {
-            // TODO:
-            // show invalid guess modal
-            // await sleep(1000)
-            // remove invalid guess modal
-            console.log('invalid guess bitch!')
-
+            setInvalidGuessModal$(true)
+            // TODO: show some sort of validating answer spinner or something
+            await sleep(1000)
+            setInvalidGuessModal$(false)
             setAllowInput$(true)
             return
         }

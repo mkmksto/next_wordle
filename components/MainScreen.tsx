@@ -17,10 +17,13 @@ export default function MainScreen() {
     const setValidityOfEachLetterInGuess$ = useGuessTracker$(
         (state) => state.setValidityOfEachLetterInGuess$,
     )
+    const isAllRowsFilled$ = useGuessTracker$((state) => state.isAllRowsFilled$)
+    const isCurrentRowTheLastRow$ = useGuessTracker$((state) => state.isCurrentRowTheLastRow$)
 
     const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
     const setWonState$ = useGameState$((state) => state.setWonState$)
     const toggleColorRevealSwitch$ = useGameState$((state) => state.toggleColorRevealSwitch$)
+    const setLoseState$ = useGameState$((state) => state.setLoseState$)
 
     const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
 
@@ -58,9 +61,17 @@ export default function MainScreen() {
         if (hasUserWon()) {
             console.log('user has won!')
             setAllowInput$(false)
+            await sleep(1000)
             setWonState$(true)
-            // await sleep(1000)
+            setLoseState$(false)
+            return
+        }
 
+        if (hasUserLost()) {
+            console.log('user has lost')
+            setAllowInput$(false)
+            setWonState$(false)
+            setLoseState$(true)
             return
         }
 
@@ -70,6 +81,13 @@ export default function MainScreen() {
 
     function hasUserWon(): boolean {
         if (isGuessCorrect$()) return true
+        return false
+    }
+
+    function hasUserLost(): boolean {
+        if (isAllRowsFilled$() && !isGuessCorrect$() && isCurrentRowTheLastRow$()) {
+            return true
+        }
         return false
     }
 

@@ -21,12 +21,14 @@ interface IGuessStore {
     currentRowIdx$: number
     incrementRow$: () => void
     currentRow$: () => LetterGuess[]
+    isCurrentRowTheLastRow$: () => boolean
     currentGuessArr$: () => LetterGuess[]
     currentFlattenedGuess$: () => string
     addLetterToGuess$: (letterToAdd: string) => void
     removeLastLetterFromGuess$: () => void
     isCurrentRowFilled$: () => boolean
     isGuessValid$: (cur_word_difficulty: string) => Promise<boolean>
+    isAllRowsFilled$: () => boolean
     isGuessCorrect$: () => boolean
     setValidityOfEachLetterInGuess$: () => void
     setColorRevealValue$: (uuid: string, colorRevealClass: string) => void
@@ -35,7 +37,7 @@ interface IGuessStore {
 const guessStore = (set: any, get: any) => ({
     currentRandomWord$: '',
 
-    setCurrentRandomWord$: (curWord: string) => {
+    setCurrentRandomWord$: (curWord: string): void => {
         set((state: IGuessStore) => {
             state.currentRandomWord$ = curWord
         })
@@ -45,7 +47,7 @@ const guessStore = (set: any, get: any) => ({
 
     currentRowIdx$: 0,
 
-    incrementRow$: () =>
+    incrementRow$: (): void =>
         set((state: IGuessStore) => {
             state.currentRowIdx$++
         }),
@@ -54,6 +56,10 @@ const guessStore = (set: any, get: any) => ({
     //     return get().allGuesses$[get().currentRowIdx$]
     // },
     currentRow$: (): LetterGuess[] => get().allGuesses$[get().currentRowIdx$],
+
+    isCurrentRowTheLastRow$(): boolean {
+        return get().currentRowIdx$ === get().allGuesses$.length - 1
+    },
 
     currentGuessArr$: (): LetterGuess[] =>
         get()
@@ -67,7 +73,7 @@ const guessStore = (set: any, get: any) => ({
             .map((l: LetterGuess) => l.letter)
             .reduce((acc: string, l: LetterGuess) => acc + l, ''),
 
-    addLetterToGuess$: (letterToAdd: string) => {
+    addLetterToGuess$: (letterToAdd: string): void => {
         const current = (): LetterGuess[] => get().currentRow$()
         const currentRow: LetterGuess[] = JSON.parse(JSON.stringify(current()))
         const nextBlankCell = currentRow.find((letter) => letter.isBlank) as LetterGuess
@@ -83,7 +89,7 @@ const guessStore = (set: any, get: any) => ({
         })
     },
 
-    removeLastLetterFromGuess$: () => {
+    removeLastLetterFromGuess$: (): void => {
         const current = (): LetterGuess[] => get().currentRow$()
         const currentRow: LetterGuess[] = JSON.parse(JSON.stringify(current()))
         const itemToRemove = [...currentRow]
@@ -102,10 +108,10 @@ const guessStore = (set: any, get: any) => ({
         })
     },
 
-    isCurrentRowFilled$: () =>
+    isCurrentRowFilled$: (): boolean =>
         get().currentRandomWord$.length === get().currentFlattenedGuess$().length,
 
-    async isGuessValid$(cur_word_difficulty: string) {
+    async isGuessValid$(cur_word_difficulty: string): Promise<boolean> {
         if (allowed_guesses.includes(get().currentFlattenedGuess$())) return true
         if (
             await getGuessValidityBasedOnFrequency(
@@ -118,16 +124,18 @@ const guessStore = (set: any, get: any) => ({
         return false
     },
 
-    isAllRowsFilled$() {
-        //
+    isAllRowsFilled$(): boolean {
+        return get().allGuesses$.every((row: LetterGuess[]) =>
+            row.every((letter) => !letter.isBlank),
+        )
     },
 
-    isGuessCorrect$() {
+    isGuessCorrect$(): boolean {
         if (get().currentRandomWord$ === get().currentFlattenedGuess$()) return true
         return false
     },
 
-    setValidityOfEachLetterInGuess$() {
+    setValidityOfEachLetterInGuess$(): void {
         const guessLetterPool: string[] = []
         const curRandWord: string = get().currentRandomWord$
         const validLetters: string[] = curRandWord.split('')
@@ -168,7 +176,7 @@ const guessStore = (set: any, get: any) => ({
         })
     },
 
-    setColorRevealValue$: (uuid: string, colorRevealClass: string) => {
+    setColorRevealValue$: (uuid: string, colorRevealClass: string): void => {
         const mutatedCurGuessObj: LetterGuess[] = JSON.parse(
             JSON.stringify(get().currentGuessArr$()),
         )

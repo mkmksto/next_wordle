@@ -9,6 +9,7 @@ interface IGameState {
     colorRevealToggleSwitch$: boolean // just a switch, whether it's T or F doesn't matter
     setAllowInput$: (bool: boolean) => void
     setWonState$: (bool: boolean) => void
+    setLoseState$: (bool: boolean) => void
     resetGameStates$: () => void
     toggleColorRevealSwitch$: () => void
 }
@@ -19,24 +20,29 @@ const gameState = (set: any) => ({
     allowInput$: true,
     colorRevealToggleSwitch$: false,
 
-    setAllowInput$: (bool: boolean) =>
+    setAllowInput$: (bool: boolean): void =>
         set((state: IGameState) => {
             state.allowInput$ = bool
         }),
 
-    setWonState$: (bool: boolean) =>
+    setWonState$: (bool: boolean): void =>
         set((state: IGameState) => {
             state.hasWon$ = bool
         }),
 
-    resetGameStates$: () =>
+    setLoseState$: (bool: boolean): void =>
         set((state: IGameState) => {
+            state.hasLost$ = bool
+        }),
+
+    resetGameStates$: (): void =>
+        set((state: IGameState): void => {
             state.hasWon$ = false
             state.hasLost$ = false
             state.allowInput$ = false
         }),
 
-    toggleColorRevealSwitch$: () =>
+    toggleColorRevealSwitch$: (): void =>
         set((state: IGameState) => {
             state.colorRevealToggleSwitch$ = !state.colorRevealToggleSwitch$
         }),

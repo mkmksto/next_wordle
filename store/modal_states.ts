@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
+import middleware from './zustand_middleware'
 
 interface Store {
     showInvalidGuessModal$: boolean
@@ -28,20 +29,20 @@ const modalStore = (set: any) => ({
 
     setInfoModal$: (bool: boolean): void =>
         set((state: Store) => {
-            state.showInvalidGuessModal$ = bool
+            state.showInfoModal$ = bool
         }),
 
     setGameWonModal$: (bool: boolean): void =>
         set((state: Store) => {
-            state.showInvalidGuessModal$ = bool
+            state.showGameWonModal$ = bool
         }),
 
     setGameLostModal$: (bool: boolean): void =>
         set((state: Store) => {
-            state.showInvalidGuessModal$ = bool
+            state.showGameLostModal$ = bool
         }),
 })
 
-const useModalState$ = create<Store>()(immer(modalStore))
+const useModalState$ = create<Store>()(middleware(modalStore))
 
 export default useModalState$

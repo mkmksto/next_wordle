@@ -7,11 +7,13 @@ interface Store {
     showInfoModal$: boolean
     showGameWonModal$: boolean
     showGameLostModal$: boolean
+    showGenericErrorModal$: boolean
     resetModals$: () => void
     setInvalidGuessModal$: (bool: boolean) => void
     setInfoModal$: (bool: boolean) => void
     setGameWonModal$: (bool: boolean) => void
     setGameLostModal$: (bool: boolean) => void
+    setGenericErrorModal$: (bool: boolean) => void
 }
 
 const modalStore = (set: any) => ({
@@ -22,6 +24,8 @@ const modalStore = (set: any) => ({
     showGameWonModal$: false,
 
     showGameLostModal$: false,
+
+    showGenericErrorModal$: false,
 
     resetModals$: (): void =>
         set((state: Store) => {
@@ -49,6 +53,11 @@ const modalStore = (set: any) => ({
     setGameLostModal$: (bool: boolean): void =>
         set((state: Store) => {
             state.showGameLostModal$ = bool
+        }),
+
+    setGenericErrorModal$: (bool: boolean): void =>
+        set((state: Store) => {
+            state.showGenericErrorModal$ = bool
         }),
 })
 

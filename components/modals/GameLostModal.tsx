@@ -11,7 +11,7 @@ export default function GameWonModal() {
     const showGameLostModal$ = useModalState$((state) => state.showGameLostModal$)
     const currentRandomWord$ = useRandomWordStore$((state) => state.currentRandomWord$)
 
-    const handleReset = useResetGame()
+    const { handleReset } = useResetGame()
 
     if (!showGameLostModal$) return null
 

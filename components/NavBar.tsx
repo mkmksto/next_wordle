@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function NavBar({ onSettingsClicked }: Props) {
-    const handleReset = useResetGame()
+    const { handleReset } = useResetGame()
 
     return (
         <nav className="h-screen z-50 flex flex-col items-center justify-around">

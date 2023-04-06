@@ -3,6 +3,7 @@ import { BsGear, BsFlag } from 'react-icons/bs'
 import { MdRestartAlt } from 'react-icons/md'
 import { Space_Grotesk } from 'next/font/google'
 import useResetGame from '@/hooks/useResetGame'
+import useGameLost from '@/hooks/useGameLost'
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -15,6 +16,7 @@ interface Props {
 
 export default function NavBar({ onSettingsClicked }: Props) {
     const { handleReset } = useResetGame()
+    const { setGameStateToLost } = useGameLost()
 
     return (
         <nav className="h-screen z-50 flex flex-col items-center justify-around">
@@ -35,7 +37,7 @@ export default function NavBar({ onSettingsClicked }: Props) {
             <div>
                 <ul>
                     <li className="nav-list">
-                        <BsFlag className="text-neutral-500" />
+                        <BsFlag onClick={setGameStateToLost} className="text-neutral-500" />
                     </li>
                     <li className="nav-list mt-2 mb-8">
                         <MdRestartAlt onClick={handleReset} className="text-neutral-500" />

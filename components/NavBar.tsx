@@ -4,6 +4,7 @@ import { MdRestartAlt } from 'react-icons/md'
 import { Space_Grotesk } from 'next/font/google'
 import useResetGame from '@/hooks/useResetGame'
 import useGameLost from '@/hooks/useGameLost'
+import useModalState$ from '@/store/modal_states'
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -15,13 +16,14 @@ interface Props {
 }
 
 export default function NavBar({ onSettingsClicked }: Props) {
+    const setInfoModal$ = useModalState$((state) => state.setInfoModal$)
     const { handleReset } = useResetGame()
     const { setGameStateToLost } = useGameLost()
 
     return (
         <nav className="h-screen z-50 flex flex-col items-center justify-around">
             <ul>
-                <li className="nav-list">
+                <li onClick={() => setInfoModal$(true)} className="nav-list">
                     <AiOutlineInfoCircle className="text-neutral-500" />
                 </li>
                 <li onClick={() => onSettingsClicked()} className="nav-list mt-4">

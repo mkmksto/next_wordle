@@ -5,15 +5,17 @@ const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] })
 
 interface Props {
     children: ReactNode
+    onClickModalBackground?: () => void
 }
 
-export default function GenericModalBackground({ children }: Props) {
+export default function GenericModalBackground({ children, onClickModalBackground }: Props) {
     const modalBgRef = useRef<HTMLDivElement>(null)
 
     // if (!showModal) return null
 
     return (
         <div
+            onClick={onClickModalBackground}
             ref={modalBgRef}
             className={`fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center bg-black/50 ${inter.className}`}
         >

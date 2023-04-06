@@ -49,3 +49,22 @@
     /*     @apply bg-black/25; */
     /* } */
 }
+
+@layer base {
+    p {
+        @apply my-3;
+    }
+
+    h1,
+    h3 {
+        @apply text-neutral-600;
+    }
+
+    h1 {
+        @apply text-5xl font-bold;
+    }
+
+    h3 {
+        @apply text-3xl font-bold my-6;
+    }
+}

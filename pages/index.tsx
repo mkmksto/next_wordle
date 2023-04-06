@@ -8,6 +8,7 @@ import InvalidGuessModal from '@/components/modals/InvalidGuessModal'
 import GameWonModal from '@/components/modals/GameWonModal'
 import GameLostModal from '@/components/modals/GameLostModal'
 import GenericErrorModal from '@/components/modals/GenericErrorModal'
+import InfoModal from '@/components/modals/InfoModal'
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -31,6 +32,8 @@ export default function Home() {
                 onModalBgClicked={() => setShowModal(false)}
                 onCloseSettingsModal={() => setShowModal(false)}
             />
+
+            <InfoModal />
 
             <InvalidGuessModal />
 

@@ -31,6 +31,9 @@ dependencies:
   react-icons:
     specifier: ^4.8.0
     version: 4.8.0(react@18.2.0)
+  react-simple-keyboard:
+    specifier: ^3.5.53
+    version: 3.5.53(react-dom@18.2.0)(react@18.2.0)
   typescript:
     specifier: 5.0.3
     version: 5.0.3
@@ -2071,6 +2074,16 @@ packages:
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: false
+
+  /react-simple-keyboard@3.5.53(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-erXkx7uJS+TwA4eudHQZNCCw21WYG8Se6NLCSb962wz6xAqjI5+ETlYQokYYBs559IMxdphLAr7w9/Rf1dIbIg==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react@18.2.0:

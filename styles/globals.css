@@ -36,21 +36,19 @@
     input[type='range'] {
         @apply appearance-none bg-neutral-300 p-[-2px] rounded-full h-2;
     }
-
-    /* input[type='range']::-webkit-slider-runnable-track { */
-    /*     @apply bg-black/25; */
-    /* } */
-    /**/
-    /* input[type='range']::-moz-range-track { */
-    /*     @apply bg-black/25; */
-    /* } */
-    /**/
-    /* input[type='range']::-ms-track { */
-    /*     @apply bg-black/25; */
-    /* } */
 }
 
 @layer base {
+    .simple-keyboard.hg-theme-default.myTheme {
+        margin: 10px;
+        width: calc(100% - 20px);
+        background-color: transparent;
+    }
+    .hg-theme-default .hg-button {
+        border: none;
+        box-shadow: none;
+    }
+
     p {
         @apply my-3;
     }

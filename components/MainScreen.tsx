@@ -1,11 +1,11 @@
 import useGameState$ from '@/store/game_state'
 import useGameSettings$ from '@/store/game_settings'
 import useGuessTracker$ from '@/store/wordle_guess'
-import Keyboard from './Keyboard'
 import WordleGrid from './WordleGrid'
 import { sleep } from '@/services/misc_utils'
 import useModalState$ from '@/store/modal_states'
 import useGameLost from '@/hooks/useGameLost'
+import KeyboardComponent from './Keyboard'
 
 export default function MainScreen() {
     const addLetterToGuess$ = useGuessTracker$((state) => state.addLetterToGuess$)
@@ -102,7 +102,7 @@ export default function MainScreen() {
     return (
         <div className={`flex flex-col items-center justify-center h-full w-full -translate-x-16`}>
             <WordleGrid />
-            <Keyboard
+            <KeyboardComponent
                 onKeyboardUp={(keyStroke) => addLetterToGuess$(keyStroke)}
                 onBackSpace={() => removeLastLetterFromGuess$()}
                 onEnter={async () => await onEnter()}

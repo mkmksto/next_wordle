@@ -32,4 +32,20 @@
     .settings-buttons {
         @apply py-2 px-4 rounded-full font-bold text-neutral-500 border border-neutral-200 transition ease-in duration-100 hover:text-white hover:bg-neutral-500 outline-none;
     }
+
+    input[type='range'] {
+        @apply appearance-none bg-neutral-300 p-[-2px] rounded-full h-2;
+    }
+
+    /* input[type='range']::-webkit-slider-runnable-track { */
+    /*     @apply bg-black/25; */
+    /* } */
+    /**/
+    /* input[type='range']::-moz-range-track { */
+    /*     @apply bg-black/25; */
+    /* } */
+    /**/
+    /* input[type='range']::-ms-track { */
+    /*     @apply bg-black/25; */
+    /* } */
 }

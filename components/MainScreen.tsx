@@ -5,6 +5,7 @@ import Keyboard from './Keyboard'
 import WordleGrid from './WordleGrid'
 import { sleep } from '@/services/misc_utils'
 import useModalState$ from '@/store/modal_states'
+import useGameLost from '@/hooks/useGameLost'
 
 export default function MainScreen() {
     const addLetterToGuess$ = useGuessTracker$((state) => state.addLetterToGuess$)
@@ -30,13 +31,14 @@ export default function MainScreen() {
 
     const setInvalidGuessModal$ = useModalState$((state) => state.setInvalidGuessModal$)
     const setGameWonModal$ = useModalState$((state) => state.setGameWonModal$)
-    const setGameLostModal$ = useModalState$((state) => state.setGameLostModal$)
+    // const setGameLostModal$ = useModalState$((state) => state.setGameLostModal$)
+
+    const { setGameStateToLost } = useGameLost()
 
     async function onEnter() {
         setAllowInput$(false)
 
         if (!isCurrentRowFilled$()) {
-            console.log('row isnt filled')
             setAllowInput$(true)
             return
         }
@@ -54,7 +56,6 @@ export default function MainScreen() {
         await sleep(1500)
 
         if (hasUserWon()) {
-            // console.log('user has won!')
             setAllowInput$(false)
             await sleep(50)
             setGameWonModal$(true)
@@ -64,11 +65,7 @@ export default function MainScreen() {
         }
 
         if (hasUserLost()) {
-            console.log('user has lost')
-            setAllowInput$(false)
-            setWonState$(false)
-            setLoseState$(true)
-            setGameLostModal$(true)
+            setGameStateToLost()
             return
         }
 

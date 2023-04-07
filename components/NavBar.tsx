@@ -21,28 +21,28 @@ export default function NavBar({ onSettingsClicked }: Props) {
     const { setGameStateToLost } = useGameLost()
 
     return (
-        <nav className="h-screen z-50 flex flex-col items-center justify-around">
-            <ul>
+        <nav className="h-screen z-50 flex flex-col items-center justify-around bg-darker-pink">
+            <ul className="mt-8">
                 <li onClick={() => setInfoModal$(true)} className="nav-list">
-                    <AiOutlineInfoCircle className="text-neutral-500" />
+                    <AiOutlineInfoCircle className="navbar-icons" />
                 </li>
                 <li onClick={() => onSettingsClicked()} className="nav-list mt-4">
-                    <BsGear className="text-neutral-500" />
+                    <BsGear className="navbar-icons" />
                 </li>
             </ul>
             <div
-                className={`select-none ${spaceGrotesk.className} font-sans vert-text bg-orange-400 py-4 text-white rounded-2xl mb-10`}
+                className={`select-none ${spaceGrotesk.className} font-sans vert-text bg-darker-pink py-4 text-white rounded-2xl mb-10`}
             >
                 WORDLE
             </div>
 
-            <div>
+            <div className="p-3 py-5 rounded-md mb-16">
                 <ul>
                     <li className="nav-list">
-                        <BsFlag onClick={setGameStateToLost} className="text-neutral-500" />
+                        <BsFlag onClick={setGameStateToLost} className="navbar-icons" />
                     </li>
-                    <li className="nav-list mt-2 mb-8">
-                        <MdRestartAlt onClick={handleReset} className="text-neutral-500" />
+                    <li className="nav-list mt-2">
+                        <MdRestartAlt onClick={handleReset} className="navbar-icons" />
                     </li>
                 </ul>
             </div>

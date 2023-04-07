@@ -44,7 +44,7 @@ export default function Home() {
             <GenericErrorModal />
 
             <main
-                className={`${inter.className} grid grid-cols-[6rem_1fr] overflow-hidden h-screen w-screen"`}
+                className={`${inter.className} grid grid-cols-[5rem_1fr] overflow-hidden h-screen w-screen"`}
             >
                 <NavBar onSettingsClicked={() => setShowModal(true)} />
                 <MainScreen />

@@ -31,7 +31,7 @@ export default function WordleGrid() {
     return (
         // words container
         <div
-            className={`flex flex-col justify-between items-center h-[58%] w-[30%] max-w-fit py-12 shadow-orange-400/20 shadow-lg rounded-3xl text-[1.3rem] ${spaceGrotesk.className}`}
+            className={`flex flex-col justify-between items-center h-[58%] w-[30%] max-w-fit py-12 bg-darker-pink shadow-lg rounded-3xl text-[1.3rem] ${spaceGrotesk.className}`}
         >
             {/* current rand word: {currentRandomWord$ && currentRandomWord$} */}
             {allGuesses$.map((wordGuess, idx) => (

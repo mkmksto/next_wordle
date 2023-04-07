@@ -40,7 +40,7 @@ export default function KeyboardComponent({ onKeyboardUp, onBackSpace, onEnter }
     // resouce for coloring the buttons:
     // https://hodgef.com/simple-keyboard/editor/?d=hodgef/react-simple-keyboard-demos/tree/uc-customization
     return (
-        <div className="w-[550px] mt-12 shadow-lg shadow-orange-400/30 rounded-3xl">
+        <div className="w-[570px] mt-12 rounded-3xl">
             {/* https://hodgef.com/simple-keyboard/questions-answers/edit-add-new-buttons-keyboard/ */}
             <Keyboard
                 onChange={() => console.log('on keyboard change')}

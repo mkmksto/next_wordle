@@ -22,7 +22,7 @@
     }
 
     .wordle-letter {
-        @apply flex items-center justify-center w-16 h-16 rounded-xl border-[3px] border-white text-white bg-neutral-400 uppercase;
+        @apply flex items-center justify-center w-16 h-16 rounded-xl border-[3px] border-white text-white uppercase;
     }
 
     .wordle-word {
@@ -31,6 +31,10 @@
 
     .settings-buttons {
         @apply py-2 px-4 rounded-full font-bold text-neutral-500 border border-neutral-200 transition ease-in duration-100 hover:text-white hover:bg-neutral-500 outline-none;
+    }
+
+    .navbar-icons {
+        @apply text-white;
     }
 
     input[type='range'] {
@@ -43,10 +47,10 @@
         margin: 10px;
         width: calc(100% - 20px);
         background-color: transparent;
+        @apply border-[3px] border-neutral-400 rounded-3xl py-3 px-6;
     }
     .hg-theme-default .hg-button {
-        border: none;
-        box-shadow: none;
+        @apply border-none bg-none text-neutral-500 shadow-none !important;
     }
 
     p {

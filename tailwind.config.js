@@ -18,6 +18,8 @@ module.exports = {
             // },
             colors: {
                 'custom-red': '#c64629',
+                'lighter-pink': '#f3b0aa',
+                'darker-pink': '#eb7b71',
             },
         },
     },

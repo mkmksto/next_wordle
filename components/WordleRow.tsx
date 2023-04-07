@@ -32,7 +32,7 @@ function WordleLetter({ letterObj, letterIdx }: LetterProps) {
         } else if (letterObj.isLetterInCorrectPosition) {
             setColorRevealValue$(letterObj.id, `bg-green-500`)
         } else if (!letterObj.isLetterInWord) {
-            setColorRevealValue$(letterObj.id, `bg-neutral-300`)
+            setColorRevealValue$(letterObj.id, `bg-neutral-400`)
         }
         if (letterObj.isBlank) setColorRevealValue$(letterObj.id, '')
     }, [colorRevealToggleSwitch$, setColorRevealValue$])

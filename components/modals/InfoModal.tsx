@@ -32,8 +32,12 @@ export default function InfoModal() {
                         {['W', 'E', 'A', 'R', 'S'].map((l, idx) => (
                             <div
                                 className={`wordle-letter text-xl ${spaceGrotesk.className} ${
-                                    l === 'W' && 'bg-green-500'
-                                } ${l === 'A' && 'bg-yellow-500'}`}
+                                    l === 'W'
+                                        ? 'bg-green-500'
+                                        : l === 'A'
+                                        ? 'bg-yellow-400'
+                                        : 'bg-neutral-400'
+                                } `}
                                 key={`${l}-${idx}`}
                             >
                                 {l}
@@ -61,7 +65,11 @@ export default function InfoModal() {
                         >
                             H
                         </div>
-                        <div className={`wordle-letter text-xl ${spaceGrotesk.className}`}>E</div>
+                        <div
+                            className={`wordle-letter text-xl bg-neutral-400 ${spaceGrotesk.className}`}
+                        >
+                            E
+                        </div>
                         <div
                             className={`wordle-letter text-xl bg-yellow-500 ${spaceGrotesk.className}`}
                         >
@@ -75,7 +83,11 @@ export default function InfoModal() {
                     </div>
 
                     <div className="flex justify-center mt-4">
-                        <div className={`wordle-letter text-xl ${spaceGrotesk.className}`}>C</div>
+                        <div
+                            className={`wordle-letter text-xl bg-neutral-400 ${spaceGrotesk.className}`}
+                        >
+                            C
+                        </div>
                         <div
                             className={`wordle-letter text-xl bg-green-500 ${spaceGrotesk.className}`}
                         >

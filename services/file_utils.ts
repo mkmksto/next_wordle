@@ -1,4 +1,4 @@
-import path from 'path'
+import path, { dirname } from 'path'
 import fs from 'fs'
 
 /**
@@ -6,7 +6,9 @@ import fs from 'fs'
  */
 export function get_dictfiles_path(): string {
     // note: i have no idea why it's 4 levels up
-    const project_root = path.resolve(__dirname, '../../../../')
+    // const project_root = path.resolve(__dirname, '../../../../')
+    const project_root = process.cwd()
+    console.log('proj root: ', project_root)
     const dict_files = path.join(project_root, 'dictionary_files')
     return dict_files
 }

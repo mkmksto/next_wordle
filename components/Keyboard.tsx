@@ -37,6 +37,8 @@ export default function KeyboardComponent({ onKeyboardUp, onBackSpace, onEnter }
         return () => window.removeEventListener('keyup', onKeyUp)
     }, [allowInput$, hasWon$, onKeyboardUp, onBackSpace, onEnter, currentRandomWord$])
 
+    // resouce for coloring the buttons:
+    // https://hodgef.com/simple-keyboard/editor/?d=hodgef/react-simple-keyboard-demos/tree/uc-customization
     return (
         <div className="w-[550px] mt-12 shadow-lg shadow-orange-400/30 rounded-3xl">
             {/* https://hodgef.com/simple-keyboard/questions-answers/edit-add-new-buttons-keyboard/ */}

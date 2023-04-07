@@ -34,7 +34,6 @@ interface IGuessStore {
     isGuessCorrect$: () => boolean
     setValidityOfEachLetterInGuess$: () => void
     setColorRevealValue$: (uuid: string, colorRevealClass: string) => void
-    flattenedAllGuesses$: () => string
     lettersInWord$: () => string
     lettersNotInWord$: () => string
     lettersInCorrectPosition$: () => string
@@ -250,7 +249,7 @@ const guessStore = (set: any, get: any) => ({
     },
 })
 
-const useGuessTracker$ = create<IGuessStore>()(middleware(guessStore))
+const useGuessTracker$ = create<IGuessStore>()(immer(guessStore))
 export default useGuessTracker$
 
 async function getGuessValidityBasedOnFrequency(

@@ -49,8 +49,21 @@
         background-color: transparent;
         @apply border-[3px] border-neutral-400 rounded-3xl py-3 px-6;
     }
+
     .hg-theme-default .hg-button {
-        @apply border-none bg-none text-neutral-500 shadow-none !important;
+        @apply border-none text-neutral-500 shadow-none !important;
+    }
+
+    .hg-button.key-neutral {
+        @apply bg-neutral-400 text-white !important;
+    }
+
+    .hg-button.key-yellow {
+        @apply bg-yellow-500 text-white !important;
+    }
+
+    .hg-button.key-green {
+        @apply bg-green-500 text-white !important;
     }
 
     p {

@@ -34,6 +34,10 @@ interface IGuessStore {
     isGuessCorrect$: () => boolean
     setValidityOfEachLetterInGuess$: () => void
     setColorRevealValue$: (uuid: string, colorRevealClass: string) => void
+    flattenedAllGuesses$: () => string
+    lettersInWord$: () => string
+    lettersNotInWord$: () => string
+    lettersInCorrectPosition$: () => string
 }
 
 const guessStore = (set: any, get: any) => ({
@@ -201,6 +205,54 @@ const guessStore = (set: any, get: any) => ({
             newState.splice(state.currentRowIdx$, 1, mutatedCurGuessObj)
             state.allGuesses$ = newState
         })
+    },
+
+    // flattenedAllGuesses$(): string {
+    //     return get().allGuesses$.map((subarr: LetterGuess[]) =>
+    //         subarr.map((letterObj: LetterGuess) => letterObj.letter),
+    //     )
+    // },
+
+    // for keyboard colors
+    lettersInWord$(): string {
+        const letterObjectsInWord: LetterGuess[][] = get().allGuesses$.map(
+            (subarr: LetterGuess[]) =>
+                subarr.filter(
+                    (letterObj: LetterGuess) =>
+                        letterObj.isLetterInWord && !letterObj.isLetterInCorrectPosition,
+                ),
+        )
+        // formatted for simple-react-keyboard
+        const uniqueLetters = letterObjectsInWord
+            .flat()
+            .map((letterObj) => letterObj.letter)
+            .join(' ')
+        return uniqueLetters
+    },
+
+    lettersNotInWord$(): string {
+        const lettersNotInWord: LetterGuess[][] = get().allGuesses$.map((subarr: LetterGuess[]) =>
+            subarr.filter(
+                (letterObj: LetterGuess) =>
+                    !letterObj.isLetterInWord && !letterObj.isLetterInCorrectPosition,
+            ),
+        )
+        const uniqueLetters = lettersNotInWord
+            .flat()
+            .map((letterObj) => letterObj.letter)
+            .join(' ')
+        return uniqueLetters
+    },
+
+    lettersInCorrectPosition$(): string {
+        const lettersInCorPos: LetterGuess[][] = get().allGuesses$.map((subarr: LetterGuess[]) =>
+            subarr.filter((letterObj: LetterGuess) => letterObj.isLetterInCorrectPosition),
+        )
+        const uniqueLetters = lettersInCorPos
+            .flat()
+            .map((letterObj) => letterObj.letter)
+            .join(' ')
+        return uniqueLetters
     },
 })
 

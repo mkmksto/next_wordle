@@ -6,6 +6,7 @@ import { sleep } from '@/services/misc_utils'
 import useModalState$ from '@/store/modal_states'
 import useGameLost from '@/hooks/useGameLost'
 import KeyboardComponent from './Keyboard'
+import useKeyboardColors$ from '@/store/keyboard_colors'
 
 export default function MainScreen() {
     const addLetterToGuess$ = useGuessTracker$((state) => state.addLetterToGuess$)
@@ -21,6 +22,9 @@ export default function MainScreen() {
     )
     const isAllRowsFilled$ = useGuessTracker$((state) => state.isAllRowsFilled$)
     const isCurrentRowTheLastRow$ = useGuessTracker$((state) => state.isCurrentRowTheLastRow$)
+    const lettersInWord$ = useGuessTracker$((state) => state.lettersInWord$)
+    const lettersNotInWord$ = useGuessTracker$((state) => state.lettersNotInWord$)
+    const lettersInCorrectPosition$ = useGuessTracker$((state) => state.lettersInCorrectPosition$)
 
     const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
     const setWonState$ = useGameState$((state) => state.setWonState$)
@@ -32,6 +36,10 @@ export default function MainScreen() {
     const setInvalidGuessModal$ = useModalState$((state) => state.setInvalidGuessModal$)
     const setGameWonModal$ = useModalState$((state) => state.setGameWonModal$)
     // const setGameLostModal$ = useModalState$((state) => state.setGameLostModal$)
+
+    const setYellowKeys$ = useKeyboardColors$((state) => state.setYellowKeys$)
+    const setGreyKeys$ = useKeyboardColors$((state) => state.setGreyKeys$)
+    const setGreenKeys$ = useKeyboardColors$((state) => state.setGreenKeys$)
 
     const { setGameStateToLost } = useGameLost()
 
@@ -54,6 +62,11 @@ export default function MainScreen() {
         toggleColorRevealSwitch$()
         // SOLUTION:
         await sleep(1500)
+        // console.log(lettersInWord$())
+        console.log('yellow keys: ', lettersInWord$())
+        setYellowKeys$(lettersInWord$())
+        setGreyKeys$(lettersNotInWord$())
+        setGreenKeys$(lettersInCorrectPosition$())
 
         if (hasUserWon()) {
             setAllowInput$(false)

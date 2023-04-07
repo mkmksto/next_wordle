@@ -1,4 +1,5 @@
 import useGameState$ from '@/store/game_state'
+import useKeyboardColors$ from '@/store/keyboard_colors'
 import useRandomWordStore$ from '@/store/random_word'
 import { useEffect } from 'react'
 import Keyboard from 'react-simple-keyboard'
@@ -14,6 +15,9 @@ export default function KeyboardComponent({ onKeyboardUp, onBackSpace, onEnter }
     const allowInput$ = useGameState$((state) => state.allowInput$)
     const hasWon$ = useGameState$((state) => state.hasWon$)
     const currentRandomWord$ = useRandomWordStore$((state) => state.currentRandomWord$)
+    const yellowKeys$ = useKeyboardColors$((state) => state.yellowKeys$)
+    const greyKeys$ = useKeyboardColors$((state) => state.greyKeys$)
+    const greenKeys$ = useKeyboardColors$((state) => state.greenKeys$)
 
     function handleInput(key: string) {
         if (hasWon$ || !allowInput$) return
@@ -53,6 +57,20 @@ export default function KeyboardComponent({ onKeyboardUp, onBackSpace, onEnter }
                     ],
                 }}
                 theme={'hg-theme-default hg-layout-default myTheme'}
+                buttonTheme={[
+                    {
+                        class: 'key-neutral',
+                        buttons: `${greyKeys$}`,
+                    },
+                    {
+                        class: 'key-yellow',
+                        buttons: `${yellowKeys$}`,
+                    },
+                    {
+                        class: 'key-green',
+                        buttons: `${greenKeys$}`,
+                    },
+                ]}
             />
         </div>
     )

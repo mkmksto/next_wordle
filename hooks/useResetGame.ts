@@ -1,5 +1,6 @@
 import useGameSettings$ from '@/store/game_settings'
 import useGameState$ from '@/store/game_state'
+import useKeyboardColors$ from '@/store/keyboard_colors'
 import useModalState$ from '@/store/modal_states'
 import useRandomWordStore$ from '@/store/random_word'
 import useGuessTracker$ from '@/store/wordle_guess'
@@ -15,6 +16,7 @@ export default function useResetGame() {
 
     const setGenericErrorModal$ = useModalState$((state) => state.setGenericErrorModal$)
     const setGameLostModal$ = useModalState$((state) => state.setGameLostModal$)
+    const clearKeyboardColors$ = useKeyboardColors$((state) => state.clearKeyboardColors$)
 
     let error = null
     async function handleReset() {
@@ -23,6 +25,7 @@ export default function useResetGame() {
             resetGameStates$()
             // remove keyboard colors
             changeNumBoxesPerRow$(gameSettings$.num_chars)
+            clearKeyboardColors$()
             resetGuessTrackingStore$()
 
             await renewCurrentWord$(gameSettings$)

@@ -35,7 +35,6 @@ export default function MainScreen() {
 
     const setInvalidGuessModal$ = useModalState$((state) => state.setInvalidGuessModal$)
     const setGameWonModal$ = useModalState$((state) => state.setGameWonModal$)
-    // const setGameLostModal$ = useModalState$((state) => state.setGameLostModal$)
 
     const setYellowKeys$ = useKeyboardColors$((state) => state.setYellowKeys$)
     const setGreyKeys$ = useKeyboardColors$((state) => state.setGreyKeys$)
@@ -62,8 +61,6 @@ export default function MainScreen() {
         toggleColorRevealSwitch$()
         // SOLUTION:
         await sleep(1500)
-        // console.log(lettersInWord$())
-        console.log('yellow keys: ', lettersInWord$())
         setYellowKeys$(lettersInWord$())
         setGreyKeys$(lettersNotInWord$())
         setGreenKeys$(lettersInCorrectPosition$())

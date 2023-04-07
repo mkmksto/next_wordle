@@ -15,7 +15,6 @@ export default function useResetGame() {
     const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
 
     const setGenericErrorModal$ = useModalState$((state) => state.setGenericErrorModal$)
-    const setGameLostModal$ = useModalState$((state) => state.setGameLostModal$)
     const clearKeyboardColors$ = useKeyboardColors$((state) => state.clearKeyboardColors$)
 
     let error = null

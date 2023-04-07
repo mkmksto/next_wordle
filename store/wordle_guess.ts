@@ -207,12 +207,6 @@ const guessStore = (set: any, get: any) => ({
         })
     },
 
-    // flattenedAllGuesses$(): string {
-    //     return get().allGuesses$.map((subarr: LetterGuess[]) =>
-    //         subarr.map((letterObj: LetterGuess) => letterObj.letter),
-    //     )
-    // },
-
     // for keyboard colors
     lettersInWord$(): string {
         const letterObjectsInWord: LetterGuess[][] = get().allGuesses$.map(

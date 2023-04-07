@@ -12,7 +12,7 @@ export default async function my_fetch(url: string, options?: {}) {
         return [data, error]
     } catch (err) {
         console.error(err)
-        error = err
+        error = 'error fetch failed'
         return [data, error]
     }
 }

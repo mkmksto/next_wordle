@@ -9,11 +9,15 @@ import GameWonModal from '@/components/modals/GameWonModal'
 import GameLostModal from '@/components/modals/GameLostModal'
 import GenericErrorModal from '@/components/modals/GenericErrorModal'
 import InfoModal from '@/components/modals/InfoModal'
+import useRandomWordFetch from '@/hooks/useRandomWordFetch'
+import useGameSettings$ from '@/store/game_settings'
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] })
 
 export default function Home() {
     const [showModal, setShowModal] = useState(false)
+    const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
+    useRandomWordFetch(gameSettings$)
 
     return (
         <>
@@ -41,7 +45,7 @@ export default function Home() {
 
             <GameLostModal />
 
-            <GenericErrorModal />
+            <GenericErrorModal errorMessage="An error has occured, try restarting the game" />
 
             <main
                 className={`${inter.className} grid grid-cols-[5rem_1fr] overflow-hidden h-screen w-screen"`}

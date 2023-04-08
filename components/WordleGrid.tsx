@@ -1,9 +1,12 @@
-import useGameSettings$ from '@/store/game_settings'
+// import useRandomWordFetch from '@/hooks/useRandomWordFetch'
+// import useGameSettings$ from '@/store/game_settings'
 import useRandomWordStore$ from '@/store/random_word'
 import useGuessTracker$ from '@/store/wordle_guess'
+import useGameState$ from '@/store/game_state'
 import { Space_Grotesk } from 'next/font/google'
 import { useEffect } from 'react'
 import WordleRow from './WordleRow'
+import { Bars } from 'react-loader-spinner'
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -11,32 +14,53 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export default function WordleGrid() {
-    const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
+    // const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
 
     const currentRandomWord$ = useRandomWordStore$((state) => state.currentRandomWord$)
-    const renewCurrentWord$ = useRandomWordStore$((state) => state.renewCurrentWord$)
+    // const renewCurrentWord$ = useRandomWordStore$((state) => state.renewCurrentWord$)
+    // const setCurrentWord$ = useRandomWordStore$((state) => state.setCurrentWord$)
 
     const setCurrentRandomWord$ = useGuessTracker$((state) => state.setCurrentRandomWord$)
     const allGuesses$ = useGuessTracker$((state) => state.allGuesses$)
 
-    useEffect(() => {
-        renewCurrentWord$(gameSettings$)
-        // setAllowInput$(true)
-    }, [])
+    const isFetchingNewWord$ = useGameState$((state) => state.isFetchingNewWord$)
+
+    // useEffect(() => {
+    //     console.log('is loading? :', isLoading)
+    //     setCurrentWord$(randomWord)
+    //     // renewCurrentWord$(gameSettings$)
+    //     // setAllowInput$(true)
+    // }, [])
 
     useEffect(() => {
         setCurrentRandomWord$(currentRandomWord$)
     }, [setCurrentRandomWord$, currentRandomWord$])
 
     return (
-        // words container
-        <div
-            className={`flex flex-col justify-between items-center h-[58%] w-[30%] max-w-fit py-12 bg-darker-pink shadow-lg rounded-3xl text-[1.3rem] ${spaceGrotesk.className}`}
-        >
-            {/* current rand word: {currentRandomWord$ && currentRandomWord$} */}
-            {allGuesses$.map((wordGuess, idx) => (
-                <WordleRow word={wordGuess} key={idx} />
-            ))}
-        </div>
+        <>
+            <div className="h-16 opacity-40">
+                {isFetchingNewWord$ && (
+                    <Bars
+                        height="40"
+                        width="40"
+                        color="#8a8a8a"
+                        ariaLabel="bars-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                    />
+                )}
+            </div>
+
+            {/* // words container */}
+            <div
+                className={`flex flex-col justify-between items-center h-[58%] w-[30%] max-w-fit py-12 bg-darker-pink shadow-lg rounded-3xl text-[1.3rem] ${spaceGrotesk.className}`}
+            >
+                {/* current rand word: {currentRandomWord$ && currentRandomWord$} */}
+                {allGuesses$.map((wordGuess, idx) => (
+                    <WordleRow word={wordGuess} key={idx} />
+                ))}
+            </div>
+        </>
     )
 }

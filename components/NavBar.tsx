@@ -2,9 +2,10 @@ import { AiOutlineInfoCircle } from 'react-icons/ai'
 import { BsGear, BsFlag } from 'react-icons/bs'
 import { MdRestartAlt } from 'react-icons/md'
 import { Space_Grotesk } from 'next/font/google'
-import useResetGame from '@/hooks/useResetGame'
+// import useResetGame from '@/hooks/useResetGame'
 import useGameLost from '@/hooks/useGameLost'
 import useModalState$ from '@/store/modal_states'
+import useResetSwitch$ from '@/store/reset_switch'
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -17,8 +18,11 @@ interface Props {
 
 export default function NavBar({ onSettingsClicked }: Props) {
     const setInfoModal$ = useModalState$((state) => state.setInfoModal$)
-    const { handleReset } = useResetGame()
+    // const { handleReset } = useResetGame()
     const { setGameStateToLost } = useGameLost()
+
+    const setResetState$ = useResetSwitch$((state) => state.setResetState$)
+    const resetState$ = useResetSwitch$((state) => state.resetState$)
 
     return (
         <nav className="h-screen z-50 flex flex-col items-center justify-around bg-darker-pink">
@@ -42,7 +46,11 @@ export default function NavBar({ onSettingsClicked }: Props) {
                         <BsFlag onClick={setGameStateToLost} className="navbar-icons" />
                     </li>
                     <li className="nav-list mt-2">
-                        <MdRestartAlt onClick={handleReset} className="navbar-icons" />
+                        <MdRestartAlt
+                            onClick={() => setResetState$(!resetState$)}
+                            className="navbar-icons"
+                        />
+                        {/* <MdRestartAlt onClick={handleReset} className="navbar-icons" /> */}
                     </li>
                 </ul>
             </div>

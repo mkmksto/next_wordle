@@ -7,11 +7,13 @@ interface IGameState {
     hasLost$: boolean
     allowInput$: boolean
     colorRevealToggleSwitch$: boolean // just a switch, whether it's T or F doesn't matter
+    isFetchingNewWord$: boolean
     setAllowInput$: (bool: boolean) => void
     setWonState$: (bool: boolean) => void
     setLoseState$: (bool: boolean) => void
     resetGameStates$: () => void
     toggleColorRevealSwitch$: () => void
+    setIsFetchingNewWord$: (bool: boolean) => void
 }
 
 const gameState = (set: any) => ({
@@ -19,6 +21,7 @@ const gameState = (set: any) => ({
     hasLost$: false,
     allowInput$: true,
     colorRevealToggleSwitch$: false,
+    isFetchingNewWord$: false,
 
     setAllowInput$: (bool: boolean): void =>
         set((state: IGameState) => {
@@ -45,6 +48,11 @@ const gameState = (set: any) => ({
     toggleColorRevealSwitch$: (): void =>
         set((state: IGameState) => {
             state.colorRevealToggleSwitch$ = !state.colorRevealToggleSwitch$
+        }),
+
+    setIsFetchingNewWord$: (bool: boolean) =>
+        set((state: IGameState) => {
+            state.isFetchingNewWord$ = bool
         }),
 })
 

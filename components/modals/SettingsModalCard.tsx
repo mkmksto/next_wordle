@@ -1,5 +1,6 @@
-import useResetGame from '@/hooks/useResetGame'
+// import useResetGame from '@/hooks/useResetGame'
 import useGameSettings$ from '@/store/game_settings'
+import useResetSwitch$ from '@/store/reset_switch'
 import { AiFillSignal } from 'react-icons/ai'
 import { SiLetterboxd } from 'react-icons/si'
 
@@ -13,7 +14,9 @@ export default function SettingsModalContainer({ onCloseSettingsModal }: Props) 
     const changeDifficulty$ = useGameSettings$((state) => state.changeDifficulty$)
     const resetGameSettings$ = useGameSettings$((state) => state.resetGameSettings$)
 
-    const { handleReset } = useResetGame()
+    // const { handleReset } = useResetGame()
+    const resetState$ = useResetSwitch$((state) => state.resetState$)
+    const setResetState$ = useResetSwitch$((state) => state.setResetState$)
 
     return (
         <form className="flex flex-col items-center justify-center h-80 min-w-[28rem] max-w-fit bg-white rounded-3xl p-10">
@@ -80,7 +83,8 @@ export default function SettingsModalContainer({ onCloseSettingsModal }: Props) 
                 <button
                     onClick={() => {
                         onCloseSettingsModal()
-                        handleReset()
+                        setResetState$(!resetState$)
+                        // handleReset()
                     }}
                     type="button"
                     className="settings-buttons"

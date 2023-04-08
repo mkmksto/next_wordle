@@ -5,7 +5,8 @@ import { immer } from 'zustand/middleware/immer'
 
 interface IRandomWordState {
     currentRandomWord$: string
-    renewCurrentWord$: (gameSettings: IGameSettings) => Promise<void>
+    // renewCurrentWord$: (gameSettings: IGameSettings) => Promise<void>
+    setCurrentWord$: (word: string) => void
     clearCurRandomWord$: () => void
 }
 
@@ -16,26 +17,31 @@ interface IRandomWordState {
 const wordStore = (set: any) => ({
     currentRandomWord$: '',
 
-    async renewCurrentWord$(gameSettings: IGameSettings) {
-        // TODO: send game settings as body to endpoint
-        const [backendData, error] = await my_fetch('/api/get_random_word', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(gameSettings),
-        })
-        if (error) {
-            set((state: IRandomWordState) => {
-                state.clearCurRandomWord$()
-            })
-            return
-        }
+    // async renewCurrentWord$(gameSettings: IGameSettings) {
+    //     // TODO: send game settings as body to endpoint
+    //     const [backendData, error] = await my_fetch('/api/get_random_word', {
+    //         method: 'POST',
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-type': 'application/json',
+    //         },
+    //         body: JSON.stringify(gameSettings),
+    //     })
+    //     if (error) {
+    //         set((state: IRandomWordState) => {
+    //             state.clearCurRandomWord$()
+    //         })
+    //         return
+    //     }
+    //     set((state: IRandomWordState) => {
+    //         state.currentRandomWord$ = backendData.random_word
+    //     })
+    // },
+
+    setCurrentWord$: (word: string) =>
         set((state: IRandomWordState) => {
-            state.currentRandomWord$ = backendData.random_word
-        })
-    },
+            state.currentRandomWord$ = word
+        }),
 
     clearCurRandomWord$: () => set((state: IRandomWordState) => (state.currentRandomWord$ = '')),
 })

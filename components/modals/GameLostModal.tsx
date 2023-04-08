@@ -1,6 +1,7 @@
 import useResetGame from '@/hooks/useResetGame'
 import useModalState$ from '@/store/modal_states'
 import useRandomWordStore$ from '@/store/random_word'
+import useResetSwitch$ from '@/store/reset_switch'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import GenericModalBackground from './GenericModalBackground'
 
@@ -11,7 +12,9 @@ export default function GameWonModal() {
     const showGameLostModal$ = useModalState$((state) => state.showGameLostModal$)
     const currentRandomWord$ = useRandomWordStore$((state) => state.currentRandomWord$)
 
-    const { handleReset } = useResetGame()
+    // const { handleReset } = useResetGame()
+    const resetState$ = useResetSwitch$((state) => state.resetState$)
+    const setResetState$ = useResetSwitch$((state) => state.setResetState$)
 
     if (!showGameLostModal$) return null
 
@@ -30,7 +33,7 @@ export default function GameWonModal() {
                             ))}
                     </div>
                     <button
-                        onClick={handleReset}
+                        onClick={() => setResetState$(!resetState$)}
                         className="mt-10 w-full bg-neutral-500 py-1 rounded-lg text-white outline-none"
                     >
                         Restart

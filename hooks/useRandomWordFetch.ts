@@ -67,7 +67,7 @@ export default function useRandomWordFetch(gameSettings: IGameSettings, dependen
                     setLoading(false)
                     setIsFetchingNewWord$(false)
                     setAllowInput$(true)
-                    throw new Error('sample error')
+                    // throw new Error('sample error')
                 })
                 .catch((_err) => {
                     console.log('catch block')

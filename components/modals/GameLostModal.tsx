@@ -1,4 +1,4 @@
-import useResetGame from '@/hooks/useResetGame'
+// import useResetGame from '@/hooks/useResetGame'
 import useModalState$ from '@/store/modal_states'
 import useRandomWordStore$ from '@/store/random_word'
 import useResetSwitch$ from '@/store/reset_switch'

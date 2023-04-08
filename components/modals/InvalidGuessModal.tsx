@@ -1,5 +1,4 @@
 import useModalState$ from '@/store/modal_states'
-import useGuessTracker$ from '@/store/wordle_guess'
 import GenericModalBackground from './GenericModalBackground'
 
 export default function InvalidGuessModal() {

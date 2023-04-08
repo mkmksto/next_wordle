@@ -1,8 +1,6 @@
 import { FetchResponse } from '@/hooks/useRandomWordFetch'
 
 export async function my_new_fetch(url: string, options?: RequestInit): Promise<FetchResponse> {
-    // let data = null
-
     return new Promise((resolve, reject) => {
         fetch(url, options)
             .then((res) => {
@@ -12,20 +10,6 @@ export async function my_new_fetch(url: string, options?: RequestInit): Promise<
             .then((data) => resolve(data))
             .catch((_err) => reject('An Error Occured, Try again'))
     })
-
-    // try {
-    //     const res = await fetch(url, options)
-    //     data = await res.json()
-    //     if (!res.ok) Promise.reject('Error, Fetch failed')
-    //     // throw new Error('sample ERROR')
-    //     //
-    // } catch (err) {
-    //     // throw new Error('Error, fetch failed')
-    //     console.error('error, fetch failed')
-    //     Promise.reject('Error, Fetch failed')
-    // }
-
-    // return data
 }
 
 export default async function my_fetch(url: string, options?: {}) {

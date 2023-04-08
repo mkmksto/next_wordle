@@ -2,7 +2,6 @@ import { AiOutlineInfoCircle } from 'react-icons/ai'
 import { BsGear, BsFlag } from 'react-icons/bs'
 import { MdRestartAlt } from 'react-icons/md'
 import { Space_Grotesk } from 'next/font/google'
-// import useResetGame from '@/hooks/useResetGame'
 import useGameLost from '@/hooks/useGameLost'
 import useModalState$ from '@/store/modal_states'
 import useResetSwitch$ from '@/store/reset_switch'
@@ -18,7 +17,6 @@ interface Props {
 
 export default function NavBar({ onSettingsClicked }: Props) {
     const setInfoModal$ = useModalState$((state) => state.setInfoModal$)
-    // const { handleReset } = useResetGame()
     const { setGameStateToLost } = useGameLost()
 
     const setResetState$ = useResetSwitch$((state) => state.setResetState$)
@@ -50,7 +48,6 @@ export default function NavBar({ onSettingsClicked }: Props) {
                             onClick={() => setResetState$(!resetState$)}
                             className="navbar-icons"
                         />
-                        {/* <MdRestartAlt onClick={handleReset} className="navbar-icons" /> */}
                     </li>
                 </ul>
             </div>

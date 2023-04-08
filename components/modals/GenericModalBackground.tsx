@@ -11,8 +11,6 @@ interface Props {
 export default function GenericModalBackground({ children, onClickModalBackground }: Props) {
     const modalBgRef = useRef<HTMLDivElement>(null)
 
-    // if (!showModal) return null
-
     return (
         <div
             onClick={onClickModalBackground}

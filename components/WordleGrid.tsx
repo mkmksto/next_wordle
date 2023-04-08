@@ -1,5 +1,3 @@
-// import useRandomWordFetch from '@/hooks/useRandomWordFetch'
-// import useGameSettings$ from '@/store/game_settings'
 import useRandomWordStore$ from '@/store/random_word'
 import useGuessTracker$ from '@/store/wordle_guess'
 import useGameState$ from '@/store/game_state'
@@ -14,23 +12,12 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export default function WordleGrid() {
-    // const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
-
     const currentRandomWord$ = useRandomWordStore$((state) => state.currentRandomWord$)
-    // const renewCurrentWord$ = useRandomWordStore$((state) => state.renewCurrentWord$)
-    // const setCurrentWord$ = useRandomWordStore$((state) => state.setCurrentWord$)
 
     const setCurrentRandomWord$ = useGuessTracker$((state) => state.setCurrentRandomWord$)
     const allGuesses$ = useGuessTracker$((state) => state.allGuesses$)
 
     const isFetchingNewWord$ = useGameState$((state) => state.isFetchingNewWord$)
-
-    // useEffect(() => {
-    //     console.log('is loading? :', isLoading)
-    //     setCurrentWord$(randomWord)
-    //     // renewCurrentWord$(gameSettings$)
-    //     // setAllowInput$(true)
-    // }, [])
 
     useEffect(() => {
         setCurrentRandomWord$(currentRandomWord$)

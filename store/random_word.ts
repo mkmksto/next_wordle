@@ -1,5 +1,3 @@
-import my_fetch from '@/services/my_fetch'
-import type { IGameSettings } from '@/store/game_settings'
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
@@ -16,27 +14,6 @@ interface IRandomWordState {
 
 const wordStore = (set: any) => ({
     currentRandomWord$: '',
-
-    // async renewCurrentWord$(gameSettings: IGameSettings) {
-    //     // TODO: send game settings as body to endpoint
-    //     const [backendData, error] = await my_fetch('/api/get_random_word', {
-    //         method: 'POST',
-    //         headers: {
-    //             Accept: 'application/json',
-    //             'Content-type': 'application/json',
-    //         },
-    //         body: JSON.stringify(gameSettings),
-    //     })
-    //     if (error) {
-    //         set((state: IRandomWordState) => {
-    //             state.clearCurRandomWord$()
-    //         })
-    //         return
-    //     }
-    //     set((state: IRandomWordState) => {
-    //         state.currentRandomWord$ = backendData.random_word
-    //     })
-    // },
 
     setCurrentWord$: (word: string) =>
         set((state: IRandomWordState) => {

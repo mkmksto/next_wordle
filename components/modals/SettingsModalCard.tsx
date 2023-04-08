@@ -1,4 +1,3 @@
-// import useResetGame from '@/hooks/useResetGame'
 import useGameSettings$ from '@/store/game_settings'
 import useResetSwitch$ from '@/store/reset_switch'
 import { AiFillSignal } from 'react-icons/ai'
@@ -14,7 +13,6 @@ export default function SettingsModalContainer({ onCloseSettingsModal }: Props) 
     const changeDifficulty$ = useGameSettings$((state) => state.changeDifficulty$)
     const resetGameSettings$ = useGameSettings$((state) => state.resetGameSettings$)
 
-    // const { handleReset } = useResetGame()
     const resetState$ = useResetSwitch$((state) => state.resetState$)
     const setResetState$ = useResetSwitch$((state) => state.setResetState$)
 
@@ -79,12 +77,10 @@ export default function SettingsModalContainer({ onCloseSettingsModal }: Props) 
                     Reset Settings
                 </button>
 
-                {/* Todo: Implement */}
                 <button
                     onClick={() => {
                         onCloseSettingsModal()
                         setResetState$(!resetState$)
-                        // handleReset()
                     }}
                     type="button"
                     className="settings-buttons"

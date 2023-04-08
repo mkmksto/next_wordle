@@ -8,7 +8,6 @@ import useGuessTracker$ from '@/store/wordle_guess'
 import useGameSettings$ from '@/store/game_settings'
 import useKeyboardColors$ from '@/store/keyboard_colors'
 import { useEffect, useState } from 'react'
-// import useResetGame from './useResetGame'
 
 export interface FetchResponse {
     random_word: string
@@ -25,11 +24,9 @@ export default function useRandomWordFetch(gameSettings: IGameSettings, dependen
     const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
 
     const resetState$ = useResetSwitch$((state) => state.resetState$)
-    // const { handleReset, error } = useResetGame()
 
     const resetGameStates$ = useGameState$((state) => state.resetGameStates$)
     const resetModals$ = useModalState$((state) => state.resetModals$)
-    // const renewCurrentWord$ = useRandomWordStore$((state) => state.renewCurrentWord$)
     const resetGuessTrackingStore$ = useGuessTracker$((state) => state.resetGuessTrackingStore$)
     const changeNumBoxesPerRow$ = useGuessTracker$((state) => state.changeNumBoxesPerRow$)
     const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
@@ -44,10 +41,8 @@ export default function useRandomWordFetch(gameSettings: IGameSettings, dependen
             setIsFetchingNewWord$(true)
             setAllowInput$(false)
 
-            // handleReset()
             resetModals$()
             resetGameStates$()
-            // remove keyboard colors
             changeNumBoxesPerRow$(gameSettings$.num_chars)
             clearKeyboardColors$()
             resetGuessTrackingStore$()

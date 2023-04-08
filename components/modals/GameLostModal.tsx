@@ -1,4 +1,3 @@
-// import useResetGame from '@/hooks/useResetGame'
 import useModalState$ from '@/store/modal_states'
 import useRandomWordStore$ from '@/store/random_word'
 import useResetSwitch$ from '@/store/reset_switch'
@@ -12,7 +11,6 @@ export default function GameWonModal() {
     const showGameLostModal$ = useModalState$((state) => state.showGameLostModal$)
     const currentRandomWord$ = useRandomWordStore$((state) => state.currentRandomWord$)
 
-    // const { handleReset } = useResetGame()
     const resetState$ = useResetSwitch$((state) => state.resetState$)
     const setResetState$ = useResetSwitch$((state) => state.setResetState$)
 

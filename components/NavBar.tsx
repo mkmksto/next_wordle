@@ -35,7 +35,7 @@ export default function NavBar({ onSettingsClicked }: Props) {
                     onClick={() => setProfileModal$(true)}
                     className="w-8 h-8 cursor-pointer rounded-full overflow-hidden"
                 >
-                    <img src={session.user?.image} alt="avatar" />
+                    <img src={session.user?.image ?? ''} alt="avatar" />
                 </div>
             ) : (
                 <div className="w-8 h-8" />

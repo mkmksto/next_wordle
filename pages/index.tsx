@@ -11,6 +11,8 @@ import GenericErrorModal from '@/components/modals/GenericErrorModal'
 import InfoModal from '@/components/modals/InfoModal'
 import useRandomWordFetch from '@/hooks/useRandomWordFetch'
 import useGameSettings$ from '@/store/game_settings'
+import { useSession } from 'next-auth/react'
+import ProfileModal from '@/components/modals/ProfileModal'
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -18,11 +20,13 @@ export default function Home() {
     const [showModal, setShowModal] = useState(false)
     const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
     useRandomWordFetch(gameSettings$)
+    // const { data: session, status } = useSession()
+    // const authenticated = session && status === 'authenticated'
 
     return (
         <>
             <Head>
-                <title>Create Next App</title>
+                <title>My Wordle App (NEXT JS)</title>
                 <meta
                     name="description"
                     content="Worlde game created using NEXT JS and Typescript"
@@ -38,6 +42,8 @@ export default function Home() {
             />
 
             <InfoModal />
+
+            <ProfileModal />
 
             <InvalidGuessModal />
 

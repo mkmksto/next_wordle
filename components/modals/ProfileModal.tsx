@@ -12,9 +12,10 @@ export default function ProfileModal() {
     const [loading, setLoading] = useState(true)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
+    const [nextAuthId, setId] = useState('')
 
     useEffect(() => {
-        console.log('useeffect inside profile modal')
+        // console.log(`session: ${JSON.stringify(session)}`)
         fetchProfile()
     }, [session])
 
@@ -39,13 +40,15 @@ export default function ProfileModal() {
             const { data, error, status } = await supabase
                 .from('users')
                 .select()
-                .eq('email', session?.user.email)
+                .eq('id', session?.user.id)
+                // .eq('email', session?.user.email)
                 .single()
 
             if (error) throw error
             if (data) {
                 setName(data.name)
                 setEmail(data.email)
+                setId(data.id)
             }
         } catch (err) {
             console.error(err)
@@ -75,6 +78,7 @@ export default function ProfileModal() {
                     <>
                         <div>{name}</div>
                         <div>{email}</div>
+                        <div className="text-xs">{nextAuthId}</div>
                     </>
                 )}
                 <button onClick={() => signOut()} className="settings-buttons mt-8">

@@ -8,6 +8,7 @@ declare module 'next-auth' {
         user: {
             // he user's postal address
             address: string
+            id: string
         } & DefaultSession['user']
     }
 }

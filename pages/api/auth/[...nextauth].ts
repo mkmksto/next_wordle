@@ -28,6 +28,8 @@ export const authOptions: NextAuthOptions = {
                     role: 'authenticated',
                 }
                 session.supabaseAccessToken = jwt.sign(payload, signingSecret)
+                // https://github.com/muxinc/video-course-starter-kit/blob/main/pages/api/auth/%5B...nextauth%5D.ts#L19
+                session.user.id = user.id
             }
             return session
         },

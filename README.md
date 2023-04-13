@@ -61,3 +61,9 @@ export default NextAuth(authOptions)
 ## Examples
 
 -   under the `Home` section of your supabase project, the bottom section has example code, e.g. `Next.js subscription and auth`.
+-   https://github.com/vercel/nextjs-subscription-payments
+-   https://github.com/vercel/nextjs-mysql-auth-starter
+-   https://github.com/muxinc/video-course-starter-kit
+-   [Querying the DB from inside getServerSideProps](https://github.com/muxinc/video-course-starter-kit/blob/main/pages/index.tsx#L32)
+-   [Other Templates using NextAuth](https://vercel.com/templates/nextauth.js)
+-   https://github.com/vercel/nextjs-planetscale-nextauth-tailwindcss-template

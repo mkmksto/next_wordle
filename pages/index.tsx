@@ -1,18 +1,18 @@
 import MainScreen from '@/components/MainScreen'
 import NavBar from '@/components/NavBar'
+import GameLostModal from '@/components/modals/GameLostModal'
+import GameWonModal from '@/components/modals/GameWonModal'
+import GenericErrorModal from '@/components/modals/GenericErrorModal'
+import InfoModal from '@/components/modals/InfoModal'
+import InvalidGuessModal from '@/components/modals/InvalidGuessModal'
+import ProfileModal from '@/components/modals/ProfileModal'
 import SettingsModalContainer from '@/components/modals/SettingsModalContainer'
+import useRandomWordFetch from '@/hooks/useRandomWordFetch'
+import useGameSettings$ from '@/store/game_settings'
+import useModalState$ from '@/store/modal_states'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import { useState } from 'react'
-import InvalidGuessModal from '@/components/modals/InvalidGuessModal'
-import GameWonModal from '@/components/modals/GameWonModal'
-import GameLostModal from '@/components/modals/GameLostModal'
-import GenericErrorModal from '@/components/modals/GenericErrorModal'
-import InfoModal from '@/components/modals/InfoModal'
-import useRandomWordFetch from '@/hooks/useRandomWordFetch'
-import useGameSettings$ from '@/store/game_settings'
-import { useSession } from 'next-auth/react'
-import ProfileModal from '@/components/modals/ProfileModal'
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -20,6 +20,7 @@ export default function Home() {
     const [showModal, setShowModal] = useState(false)
     const gameSettings$ = useGameSettings$((state) => state.gameSettings$)
     useRandomWordFetch(gameSettings$)
+    const showProfileModal$ = useModalState$((state) => state.showProfileModal$)
     // const { data: session, status } = useSession()
     // const authenticated = session && status === 'authenticated'
 
@@ -43,7 +44,7 @@ export default function Home() {
 
             <InfoModal />
 
-            <ProfileModal />
+            {!!showProfileModal$ && <ProfileModal />}
 
             <InvalidGuessModal />
 

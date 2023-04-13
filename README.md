@@ -57,3 +57,7 @@ export default NextAuth(authOptions)
 ## Supabase - developing locally
 
 -   https://supabase.com/docs/guides/cli/local-development#initialize-your-project?medium=referral&campaign=authjs
+
+## Examples
+
+-   under the `Home` section of your supabase project, the bottom section has example code, e.g. `Next.js subscription and auth`.

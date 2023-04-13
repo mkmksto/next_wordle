@@ -9,12 +9,15 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@next-auth/supabase-adapter": "^0.2.1",
+        "@supabase/supabase-js": "^2.20.0",
         "@types/node": "18.15.11",
         "@types/react": "18.0.31",
         "@types/react-dom": "18.0.11",
         "eslint": "8.37.0",
         "eslint-config-next": "13.2.4",
         "immer": "^9.0.21",
+        "jsonwebtoken": "^9.0.0",
         "next": "13.2.4",
         "next-auth": "^4.22.0",
         "react": "18.2.0",
@@ -27,6 +30,7 @@
         "zustand": "^4.3.6"
     },
     "devDependencies": {
+        "@types/jsonwebtoken": "^9.0.1",
         "@types/uuid": "^9.0.1",
         "autoprefixer": "^10.4.14",
         "postcss": "^8.4.21",

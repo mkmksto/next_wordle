@@ -37,9 +37,10 @@ export default NextAuth(authOptions)
 
 ## Guides used
 
--   https://youtu.be/A5ZN--P9vXM
+-   https://youtu.be/A5ZN--P9vXM (NextJS Google Auth with NextAuth)
 -   https://next-auth.js.org/getting-started/example
 -   https://next-auth.js.org/providers/google
+-   [NextAuth Supabase Adapter](https://youtu.be/EdYQ9fF-hz4)
 
 ## Deeper dive into the hooks, e.g. `useSession`
 
@@ -67,3 +68,13 @@ export default NextAuth(authOptions)
 -   [Querying the DB from inside getServerSideProps](https://github.com/muxinc/video-course-starter-kit/blob/main/pages/index.tsx#L32)
 -   [Other Templates using NextAuth](https://vercel.com/templates/nextauth.js)
 -   https://github.com/vercel/nextjs-planetscale-nextauth-tailwindcss-template
+
+## Supabase guides (after watching supabase + nexauth adapter)
+
+-   https://www.youtube.com/watch?v=7uKQBl9uZ00 (traversy)
+    -   Includes section on how supabase's RLS actually works
+-   Caching requests
+
+    -   https://supabase.com/blog/fetching-and-caching-supabase-data-in-next-js-server-components
+
+-   [Creating Databases, Tables, etc.](https://supabase.com/docs/guides/database/tables)

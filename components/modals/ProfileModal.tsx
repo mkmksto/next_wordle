@@ -13,10 +13,13 @@ export default function ProfileModal() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [nextAuthId, setId] = useState('')
+    const [wins, setWins] = useState(0)
+    const [losses, setLosses] = useState(0)
 
     useEffect(() => {
         // console.log(`session: ${JSON.stringify(session)}`)
         fetchProfile()
+        fetchStats()
     }, [session])
 
     if (!session) return null
@@ -33,6 +36,23 @@ export default function ProfileModal() {
             },
         },
     )
+
+    async function fetchStats() {
+        try {
+            const { data, error } = await supabase
+                .from('scores')
+                .select()
+                .eq('userId', session?.user.id)
+                .single()
+            if (error) throw error
+            if (data) {
+                setWins(data.wins)
+                setLosses(data.losses)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     async function fetchProfile() {
         try {
@@ -79,6 +99,9 @@ export default function ProfileModal() {
                         <div>{name}</div>
                         <div>{email}</div>
                         <div className="text-xs">{nextAuthId}</div>
+                        <h4>Stats</h4>
+                        <div>Wins: {wins}</div>
+                        <div>Losses: {losses}</div>
                     </>
                 )}
                 <button onClick={() => signOut()} className="settings-buttons mt-8">

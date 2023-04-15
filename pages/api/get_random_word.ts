@@ -49,9 +49,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             // update supabase DB
             const { data, error } = await supabase
                 .from('current_word')
-                .update({ secret_word: random_word })
-                .eq('user_id', session?.user.id)
-            // .upsert({ user_id: session?.user.id, secret_word: random_word })
+                .upsert(
+                    { user_id: session?.user.id, secret_word: random_word },
+                    { onConflict: 'user_id' },
+                )
+            // .update({ secret_word: random_word })
+            // .eq('user_id', session?.user.id)
             if (error) {
                 console.error('failed to update supabase DB with new secret word')
                 console.error(error)

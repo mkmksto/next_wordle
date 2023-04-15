@@ -108,7 +108,7 @@ export default function MainScreen() {
 
         // check the backend DB instead of the frontend, this is more secure
         if (supabaseIsGuessCorrect === true) return true
-        // if (isGuessCorrect$()) return true
+        if (isGuessCorrect$()) return true
         return false
     }
 

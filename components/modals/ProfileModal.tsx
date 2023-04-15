@@ -26,34 +26,7 @@ export default function ProfileModal() {
 
     if (!session) return null
     const { supabaseAccessToken } = session
-
-    // const supabase = createClient(
-    //     process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-    //     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
-    //     {
-    //         global: {
-    //             headers: {
-    //                 Authorization: `Bearer ${supabaseAccessToken}`,
-    //             },
-    //         },
-    //     },
-    // )
     const supabase = createSpClient(supabaseAccessToken ?? '')
-
-    async function updateWins(newVal: number) {
-        try {
-            const { data, error } = await supabase
-                .from('scores')
-                // https://supabase.com/docs/reference/javascript/upsert
-                // .update({ wins: newVal })
-                .upsert({ userId: session?.user.id, wins: newVal })
-            // .eq('userId', session?.user.id)
-            if (error) throw error
-            console.log('successfully updated wins')
-        } catch (err) {
-            console.error(err)
-        }
-    }
 
     async function fetchStats() {
         try {
@@ -122,12 +95,6 @@ export default function ProfileModal() {
                         <div>Losses: {losses}</div>
                     </>
                 )}
-                <button onClick={() => updateWins(wins + 1)} className="settings-buttons mt-8">
-                    Increment wins
-                </button>
-                <button onClick={() => updateWins(wins - 1)} className="settings-buttons mt-8">
-                    Decrement wins
-                </button>
                 <button onClick={() => signOut()} className="settings-buttons mt-8">
                     Sign Out
                 </button>

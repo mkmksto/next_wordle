@@ -7,6 +7,10 @@ import useModalState$ from '@/store/modal_states'
 import useGameLost from '@/hooks/useGameLost'
 import KeyboardComponent from './Keyboard'
 import useKeyboardColors$ from '@/store/keyboard_colors'
+import { useSession } from 'next-auth/react'
+import { createSpClient } from '@/lib/supabaseClient'
+
+// import { supabase } from '@/lib/supabaseClient'
 
 export default function MainScreen() {
     const addLetterToGuess$ = useGuessTracker$((state) => state.addLetterToGuess$)
@@ -25,6 +29,7 @@ export default function MainScreen() {
     const lettersInWord$ = useGuessTracker$((state) => state.lettersInWord$)
     const lettersNotInWord$ = useGuessTracker$((state) => state.lettersNotInWord$)
     const lettersInCorrectPosition$ = useGuessTracker$((state) => state.lettersInCorrectPosition$)
+    const currentFlattenedGuess$ = useGuessTracker$((state) => state.currentFlattenedGuess$)
 
     const setAllowInput$ = useGameState$((state) => state.setAllowInput$)
     const setWonState$ = useGameState$((state) => state.setWonState$)
@@ -41,6 +46,10 @@ export default function MainScreen() {
     const setGreenKeys$ = useKeyboardColors$((state) => state.setGreenKeys$)
 
     const { setGameStateToLost } = useGameLost()
+
+    const { data: session } = useSession()
+    const { supabaseAccessToken } = session ?? {}
+    const supabase = createSpClient(supabaseAccessToken ?? '')
 
     async function onEnter() {
         setAllowInput$(false)
@@ -65,7 +74,7 @@ export default function MainScreen() {
         setGreyKeys$(lettersNotInWord$())
         setGreenKeys$(lettersInCorrectPosition$())
 
-        if (hasUserWon()) {
+        if (await hasUserWon()) {
             setAllowInput$(false)
             await sleep(50)
             setGameWonModal$(true)
@@ -83,13 +92,35 @@ export default function MainScreen() {
         setAllowInput$(true)
     }
 
-    function hasUserWon(): boolean {
-        if (isGuessCorrect$()) return true
+    async function hasUserWon(): Promise<boolean> {
+        let { data: supabaseIsGuessCorrect, error } = await supabase.rpc(
+            'check_word_and_update_scores',
+            {
+                word_to_test: currentFlattenedGuess$(),
+                id: session?.user.id,
+            },
+        )
+
+        if (error) console.error(error)
+        if (supabaseIsGuessCorrect !== null || supabaseIsGuessCorrect !== undefined) {
+            console.log(`supabase check, guess is: ${supabaseIsGuessCorrect}`)
+        }
+
+        // check the backend DB instead of the frontend, this is more secure
+        if (supabaseIsGuessCorrect === true) return true
+        // if (isGuessCorrect$()) return true
         return false
     }
 
     function hasUserLost(): boolean {
         if (isAllRowsFilled$() && !isGuessCorrect$() && isCurrentRowTheLastRow$()) {
+            supabase
+                .rpc('increment_losses', {
+                    id: session?.user.id,
+                })
+                .then(({ data, error }) => {
+                    if (error) console.error(error)
+                })
             return true
         }
         return false

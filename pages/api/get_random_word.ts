@@ -59,6 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 console.log('successfully updated supabsae DB')
             }
 
+            // TODO: simply send a status, do not send the word to the frontend
             res.status(200).json({ random_word: random_word })
             return
         }

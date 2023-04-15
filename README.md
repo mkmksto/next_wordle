@@ -78,3 +78,4 @@ export default NextAuth(authOptions)
     -   https://supabase.com/blog/fetching-and-caching-supabase-data-in-next-js-server-components
 
 -   [Creating Databases, Tables, etc.](https://supabase.com/docs/guides/database/tables)
+-   [Free supabase + stripe course](https://egghead.io/courses/build-a-saas-product-with-next-js-supabase-and-stripe-61f2bc20)

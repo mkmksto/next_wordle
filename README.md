@@ -1,3 +1,7 @@
+# NOTE:
+
+-   The supabase DB/Auth server associated with this project is currently disabled, auth/DB/win-loss tracking won't work but the app itself will still work
+
 # Tech stack
 
 -   tailwind

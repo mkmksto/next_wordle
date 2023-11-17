@@ -1,19 +1,11 @@
+# Wordle Clone
+
+A full-stack clone of the popular game `wordle` using NextJS/React and Typescript.  
+Unlike most clones which simply work by fetching a random word from a text file without taking into account the rarity of a word, this project actively tries to repeatedly fetch a random word from the backend, comparing the frequency of each word against an external API to check that it matches the difficulty set in the settings, and stops when a word matching the difficulty settings appears.
+
 # NOTE:
 
 -   The supabase DB/Auth server associated with this project is currently disabled, auth/DB/win-loss tracking won't work but the app itself will still work
-
-# Tech stack
-
--   tailwind
--   download some react keyboard or something
--   react icons
--   zustand
-
-Later
-
--   authentication for storing of score data
--   Firebase and auth
--   2-player mode(first to guess correct answer).
 
 ## Dev Notes
 
